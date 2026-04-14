@@ -1,0 +1,384 @@
+/* 1. CSS VARIABLES (The Source of Truth) */
+:root {
+  /* Colors */
+  --primary: #0A2A66;
+  --primary-light: #16418a;
+  --secondary: #1DB954;
+  --secondary-hover: #17a84a;
+  --accent: #F5F5F5;
+  --text-main: #171717;
+  --text-muted: #575757;
+  --white: #ffffff;
+  
+  /* Spacing System */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  
+  /* Shared Properties */
+  --radius: 8px;
+  --transition: all 0.3s ease;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --max-width: 1200px;
+}
+
+/* 2. RESET & BASE STYLES */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent; 
+}
+
+body {
+  background: var(--white);
+  color: var(--text-main);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-montserrat), sans-serif;
+  color: var(--primary);
+  line-height: 1.2;
+  margin-bottom: var(--space-sm);
+}
+
+/* 3. LAYOUT UTILITIES */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.section-padding {
+  padding: var(--space-lg) 0;
+}
+
+/* 4. REFINED NAVBAR */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999; 
+  background: var(--primary);
+  padding: var(--space-sm) 0;
+  transition: var(--transition);
+}
+
+.navbar.scrolled {
+  background: rgba(10, 42, 102, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem 0;
+  box-shadow: var(--shadow-md);
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--white);
+  z-index: 2101; 
+}
+
+.logo span {
+  color: var(--secondary);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.nav-menu a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  transition: var(--transition);
+}
+
+.nav-menu a:hover, .nav-menu a.active {
+  opacity: 1;
+  color: var(--secondary);
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative; 
+  z-index: 10000; 
+  padding: 10px;
+  min-width: 44px;
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: var(--white);
+  margin: 5px 0;
+  transition: var(--transition);
+}
+
+/* 5. COMPONENTS - BUTTONS */
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--secondary);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--secondary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--white);
+  color: var(--white);
+}
+
+.btn-outline:hover {
+  background: var(--white);
+  color: var(--primary);
+}
+
+/* 6. HERO SECTION */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--white);
+  background: var(--primary);
+  padding-top: 80px; 
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(10, 42, 102, 0.85), rgba(10, 42, 102, 0.65));
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: var(--white);
+  margin-bottom: 1.5rem;
+}
+
+.hero p {
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+}
+
+/* 7. FEATURE GRID */
+.feature-grid {
+  background: var(--accent);
+}
+
+.feature-grid .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md);
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid #eaeaea;
+  transition: var(--transition);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--secondary);
+  box-shadow: var(--shadow-md);
+}
+
+/* 8. CTA SECTION */
+.cta-section {
+  padding: var(--space-lg) 0;
+  text-align: center;
+}
+
+.cta-brand {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.cta-brand h2 { color: var(--white); }
+
+.cta-buttons {
+  margin-top: var(--space-md);
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* 9. FORMS */
+.form-group {
+  margin-bottom: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  color: var(--primary);
+}
+
+.form-group input, 
+.form-group textarea,
+.form-select {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.1);
+}
+
+/* 10. SYSTEM PAGES */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(10, 42, 102, 0.1);
+  border-left-color: var(--secondary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--space-sm);
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 11. ARTICLE & PROSE STYLING (THE UPDATED FIX) */
+.prose-content, .prose {
+  line-height: 1.8;
+  font-size: 1.125rem;
+  color: #1e293b;
+  max-width: 800px;
+  margin: 0 auto;
+  /* 🔥 Forces the browser to show line breaks from the database */
+  white-space: pre-wrap; 
+  word-break: break-word;
+}
+
+.prose-content p, .prose p {
+  margin-bottom: 1.75rem; 
+  display: block;
+}
+
+.prose-content strong, .prose strong {
+  color: var(--primary); 
+  font-weight: 800;
+}
+
+.prose-content h2, .prose h2, 
+.prose-content h3, .prose h3 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+/* 12. RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .menu-toggle { 
+    display: block;
+    z-index: 2200;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%; 
+    width: 280px;
+    height: 100vh;
+    background: var(--primary);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    gap: 2.5rem; 
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    z-index: 2100;
+  }
+
+  .nav-menu.open { 
+    right: 0; 
+  }
+
+  .hero-buttons, .form-row, .form-grid {
+    flex-direction: column;
+    grid-template-columns: 1fr;
+  }
+
+  .hamburger.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.is-active span:nth-child(2) { opacity: 0; }
+  .hamburger.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+}
+
+.staff-portal-link:hover {
+  color: #64748b !important;
+  text-decoration: underline !important;
+}
