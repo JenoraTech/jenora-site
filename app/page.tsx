@@ -4,7 +4,7 @@ import Link from "next/link";
 import CTA from "../components/CTA";
 import FeatureGrid from "../components/FeatureGrid";
 
-// Core Business Services
+// Data objects moved outside to optimize re-renders
 const transformationFeatures = [
   {
     heading: "Enterprise Workflow Automation",
@@ -24,7 +24,6 @@ const transformationFeatures = [
   },
 ];
 
-// Value Proposition
 const whyChooseUs = [
   {
     heading: "Operational Intelligence",
@@ -53,6 +52,26 @@ const industries = [
 ];
 
 export default function HomePage() {
+  // Shared styles for section consistency
+  const containerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: '4rem',
+    justifyContent: 'space-between'
+  };
+
+  const textColumnStyle: React.CSSProperties = {
+    flex: '1 1 450px',
+    maxWidth: '600px'
+  };
+
+  const visualColumnStyle: React.CSSProperties = {
+    flex: '1 1 400px',
+    display: 'flex',
+    justifyContent: 'center'
+  };
+
   return (
     <main>
       {/* Hero Section */}
@@ -88,13 +107,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* DETAILED PRODUCT ECOSYSTEM */}
-      
       {/* 1. JenoraFlow Highlight */}
       <section className="platform section-padding bg-white">
-        <div className="container grid-two-col" style={{ alignItems: 'center', gap: '4rem' }}>
-          <div className="platform-text">
-            <span className="badge">Featured Platform</span>
+        <div className="container" style={containerStyle}>
+          <div className="platform-text" style={textColumnStyle}>
+            <span className="badge">Core Platform</span>
             <h2>Introducing JenoraFlow</h2>
             <p>
               A modern enterprise workflow management platform designed to help 
@@ -111,23 +128,23 @@ export default function HomePage() {
               Request JenoraFlow Demo
             </Link>
           </div>
-          <div className="platform-visual">
-            <div className="visual-card" style={{ minHeight: '350px' }}>
+          <div className="platform-visual" style={visualColumnStyle}>
+            <div className="visual-card" style={{ width: '100%', minHeight: '380px' }}>
               <div className="skeleton-ui" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. JenoraHR Highlight - Using Flex Order for Alignment Stability */}
+      {/* 2. JenoraHR Highlight (Swapped Layout) */}
       <section className="platform section-padding bg-accent">
-        <div className="container grid-two-col" style={{ alignItems: 'center', gap: '4rem' }}>
-          <div className="platform-visual" style={{ order: 2 }}>
-            <div className="visual-card" style={{ minHeight: '350px' }}>
+        <div className="container" style={containerStyle}>
+          <div className="platform-visual" style={{ ...visualColumnStyle, order: 2 }}>
+            <div className="visual-card" style={{ width: '100%', minHeight: '380px' }}>
               <div className="skeleton-ui" />
             </div>
           </div>
-          <div className="platform-text" style={{ order: 1 }}>
+          <div className="platform-text" style={{ ...textColumnStyle, order: 1 }}>
             <span className="badge">HR & Workforce</span>
             <h2>Empower People with JenoraHR</h2>
             <p>
@@ -149,8 +166,8 @@ export default function HomePage() {
 
       {/* 3. Jenora SMS Highlight */}
       <section className="platform section-padding bg-white">
-        <div className="container grid-two-col" style={{ alignItems: 'center', gap: '4rem' }}>
-          <div className="platform-text">
+        <div className="container" style={containerStyle}>
+          <div className="platform-text" style={textColumnStyle}>
             <span className="badge">Education</span>
             <h2>Jenora School Management (SMS)</h2>
             <p>
@@ -167,23 +184,23 @@ export default function HomePage() {
               Learn More About SMS
             </Link>
           </div>
-          <div className="platform-visual">
-            <div className="visual-card" style={{ minHeight: '350px' }}>
+          <div className="platform-visual" style={visualColumnStyle}>
+            <div className="visual-card" style={{ width: '100%', minHeight: '380px' }}>
               <div className="skeleton-ui" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. Intelligence & Insights Highlight */}
+      {/* 4. Intelligence & Insights Highlight (Swapped Layout) */}
       <section className="platform section-padding bg-accent">
-        <div className="container grid-two-col" style={{ alignItems: 'center', gap: '4rem' }}>
-          <div className="platform-visual" style={{ order: 2 }}>
-            <div className="visual-card" style={{ minHeight: '350px' }}>
+        <div className="container" style={containerStyle}>
+          <div className="platform-visual" style={{ ...visualColumnStyle, order: 2 }}>
+            <div className="visual-card" style={{ width: '100%', minHeight: '380px' }}>
               <div className="skeleton-ui" />
             </div>
           </div>
-          <div className="platform-text" style={{ order: 1 }}>
+          <div className="platform-text" style={{ ...textColumnStyle, order: 1 }}>
             <span className="badge">Analytics</span>
             <h2>Data-Driven Decisions with Insights</h2>
             <p>
@@ -206,9 +223,9 @@ export default function HomePage() {
       {/* Ecosystem Summary Grid */}
       <section className="section-padding bg-white">
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <h2>Integrated Digital Infrastructure</h2>
-            <p style={{ maxWidth: '700px', margin: '1rem auto', color: 'var(--text-muted)' }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <h2 style={{ marginBottom: '1rem' }}>Integrated Digital Infrastructure</h2>
+            <p style={{ maxWidth: '700px', margin: '0 auto', color: 'var(--text-muted)', fontSize: '1.1rem' }}>
               All Jenora products are designed to work together seamlessly, 
               giving your organization a unified digital ecosystem.
             </p>
