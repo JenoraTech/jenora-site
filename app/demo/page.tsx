@@ -8,9 +8,9 @@ export default function DemoPage() {
   const [formData, setFormData] = useState({
     name: "",
     organization: "",
-    position: "",
+    position: "", // Added to match API
     email: "",
-    phone: "",
+    phone: "",    // Added to match API
     employees: "1-10",
     message: "",
   });
@@ -43,7 +43,7 @@ export default function DemoPage() {
 
   if (submitted) {
     return (
-      <main style={{ minHeight: "80vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+      <main style={{ minHeight: "80vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" } as React.CSSProperties}>
         <div className="container">
           <h2 style={{ color: "#0f172a", fontSize: "2.5rem" }}>Check Your Inbox! 📧</h2>
           <p style={{ color: "#64748b", fontSize: "1.2rem", marginTop: "1rem" }}>
@@ -70,7 +70,7 @@ export default function DemoPage() {
           color: "#ffffff", 
           paddingTop: "120px", 
           paddingBottom: "80px" 
-        }}
+        } as React.CSSProperties}
       >
         <div className="container">
           <div style={{ maxWidth: "800px" }}>
@@ -92,23 +92,23 @@ export default function DemoPage() {
             gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", 
             gap: "4rem", 
             alignItems: "start" 
-          }}>
+          } as React.CSSProperties}>
             
             {/* Left: Expectations */}
             <div>
               <h2 style={{ fontSize: "2rem", marginBottom: "2rem", color: "#1e293b" }}>What to expect</h2>
-              <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "2rem" }}>
+              <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "2rem" } as React.CSSProperties}>
                 {[
                   { title: "Personalized Walkthrough", desc: "A session tailored to your specific organizational challenges." },
                   { title: "Efficiency Audit", desc: "We'll identify manual processes costing you time." },
                   { title: "Implementation Roadmap", desc: "A clear plan for deploying JenoraFlow in your team." }
                 ].map((item, index) => (
-                  <li key={index} style={{ display: "flex", gap: "1rem" }}>
+                  <li key={index} style={{ display: "flex", gap: "1rem" } as React.CSSProperties}>
                     <span style={{ 
                       background: "#f1f5f9", color: "#2563eb", width: "32px", height: "32px", 
                       borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
                       fontWeight: "700", flexShrink: 0
-                    }}>
+                    } as React.CSSProperties}>
                       {index + 1}
                     </span>
                     <div>
@@ -126,9 +126,9 @@ export default function DemoPage() {
               boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)" 
             }}>
               <h3 style={{ marginBottom: "1.5rem", color: "#0f172a" }}>Request a Session</h3>
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" } as React.CSSProperties}>
                 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" } as React.CSSProperties}>
                   <div style={fieldGroupStyle}>
                     <label style={labelStyle}>Name</label>
                     <input 
@@ -147,6 +147,27 @@ export default function DemoPage() {
                       placeholder="Company Name" 
                       style={inputStyle} 
                       onChange={(e) => setFormData({...formData, organization: e.target.value})}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" } as React.CSSProperties}>
+                  <div style={fieldGroupStyle}>
+                    <label style={labelStyle}>Job Title</label>
+                    <input 
+                      type="text" 
+                      placeholder="Operations Manager" 
+                      style={inputStyle} 
+                      onChange={(e) => setFormData({...formData, position: e.target.value})}
+                    />
+                  </div>
+                  <div style={fieldGroupStyle}>
+                    <label style={labelStyle}>Phone Number</label>
+                    <input 
+                      type="tel" 
+                      placeholder="+234..." 
+                      style={inputStyle} 
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
                     />
                   </div>
                 </div>
@@ -192,7 +213,7 @@ export default function DemoPage() {
                     backgroundColor: loading ? "#94a3b8" : "#2563eb", 
                     color: "#fff", padding: "14px", borderRadius: "6px", border: "none",
                     fontWeight: "600", cursor: loading ? "not-allowed" : "pointer"
-                  }}
+                  } as React.CSSProperties}
                 >
                   {loading ? "Scheduling..." : "Schedule My Demo"}
                 </button>
@@ -206,9 +227,10 @@ export default function DemoPage() {
   );
 }
 
-const labelStyle = { fontSize: "0.85rem", fontWeight: "600", color: "#475569" };
-const fieldGroupStyle = { display: "flex", flexDirection: "column", gap: "0.4rem" };
-const inputStyle = {
+// Fixed type definitions for styles
+const labelStyle: React.CSSProperties = { fontSize: "0.85rem", fontWeight: "600", color: "#475569" };
+const fieldGroupStyle: React.CSSProperties = { display: "flex", flexDirection: "column", gap: "0.4rem" };
+const inputStyle: React.CSSProperties = {
   padding: "10px 14px",
   borderRadius: "6px",
   border: "1px solid #cbd5e1",
