@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image"; // Added Image import
 import { useState, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation"; // Added useRouter
+import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 
 interface NavLink {
@@ -15,7 +16,7 @@ export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const pathname = usePathname();
-  const router = useRouter(); // Initialize router for redirecting
+  const router = useRouter();
   const supabase = createClient();
 
   // 1. Check if user is logged in
@@ -38,9 +39,9 @@ export default function NavBar() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setIsAdmin(false);
-    setIsOpen(false); // Close mobile menu on logout
-    router.push("/"); // Send user to home page
-    router.refresh(); // Refresh to clear any server-side data
+    setIsOpen(false);
+    router.push("/");
+    router.refresh();
   };
 
   // Scroll logic
@@ -76,8 +77,19 @@ export default function NavBar() {
   return (
     <header className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <div className="container">
-        <Link href="/" className="logo">
-          Jenora Tech<span>.</span>
+        {/* Updated Logo Section: Logo + Text */}
+        <Link href="/" className="logo" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <Image 
+            src="/logo.png" 
+            alt="Jenora Tech Logo" 
+            width={32} 
+            height={32} 
+            priority
+            style={{ borderRadius: "4px" }}
+          />
+          <span style={{ display: "flex", alignItems: "baseline" }}>
+            Jenora Tech LTD<span style={{ color: "var(--primary)" }}>.</span>
+          </span>
         </Link>
 
         <nav className={`nav-menu ${isOpen ? "open" : ""}`}>
@@ -91,7 +103,6 @@ export default function NavBar() {
             </Link>
           ))}
 
-          {/* 3. Admin Dashboard Link */}
           {isAdmin && (
             <Link 
               href="/admin" 
@@ -102,7 +113,6 @@ export default function NavBar() {
             </Link>
           )}
 
-          {/* 4. Logout Button - Only shows when isAdmin is true */}
           {isAdmin ? (
             <button 
               onClick={handleLogout}
