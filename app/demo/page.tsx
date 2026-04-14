@@ -8,10 +8,11 @@ export default function DemoPage() {
   const [formData, setFormData] = useState({
     name: "",
     organization: "",
-    position: "", // Added to match API
+    position: "",
     email: "",
-    phone: "",    // Added to match API
+    phone: "",
     employees: "1-10",
+    product: "JenoraFlow", // Default selection
     message: "",
   });
 
@@ -47,13 +48,13 @@ export default function DemoPage() {
         <div className="container">
           <h2 style={{ color: "#0f172a", fontSize: "2.5rem" }}>Check Your Inbox! 📧</h2>
           <p style={{ color: "#64748b", fontSize: "1.2rem", marginTop: "1rem" }}>
-            Thank you, {formData.name}. We've received your request for {formData.organization} and sent a confirmation email.
+            Thank you, {formData.name}. We've received your request for <strong>{formData.product}</strong> and sent a confirmation email to {formData.email}.
           </p>
           <button 
             onClick={() => setSubmitted(false)}
             style={{ marginTop: "2rem", color: "#2563eb", background: "none", border: "none", cursor: "pointer", fontWeight: "600" }}
           >
-            ← Send another request
+            ← Request another demo
           </button>
         </div>
       </main>
@@ -75,10 +76,10 @@ export default function DemoPage() {
         <div className="container">
           <div style={{ maxWidth: "800px" }}>
             <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", marginBottom: "1.5rem", fontWeight: "800" }}>
-              See JenoraFlow in Action
+              Experience Our Solutions
             </h1>
             <p style={{ fontSize: "1.25rem", color: "#94a3b8", lineHeight: "1.6" }}>
-              Discover how our automated workflow engine can eliminate bottlenecks and scale your operations.
+              See how our suite of enterprise tools can transform your organization's efficiency, transparency, and growth.
             </p>
           </div>
         </div>
@@ -100,8 +101,8 @@ export default function DemoPage() {
               <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "2rem" } as React.CSSProperties}>
                 {[
                   { title: "Personalized Walkthrough", desc: "A session tailored to your specific organizational challenges." },
-                  { title: "Efficiency Audit", desc: "We'll identify manual processes costing you time." },
-                  { title: "Implementation Roadmap", desc: "A clear plan for deploying JenoraFlow in your team." }
+                  { title: "Product Deep-Dive", desc: "Explore the features that matter most to your daily operations." },
+                  { title: "Implementation Roadmap", desc: "A clear plan for deploying your chosen Jenora solution." }
                 ].map((item, index) => (
                   <li key={index} style={{ display: "flex", gap: "1rem" } as React.CSSProperties}>
                     <span style={{ 
@@ -151,6 +152,22 @@ export default function DemoPage() {
                   </div>
                 </div>
 
+                <div style={fieldGroupStyle}>
+                  <label style={labelStyle}>Select Product</label>
+                  <select 
+                    style={inputStyle} 
+                    value={formData.product}
+                    onChange={(e) => setFormData({...formData, product: e.target.value})}
+                  >
+                    <option value="JenoraFlow">JenoraFlow (Workflows)</option>
+                    <option value="JenoraHR">JenoraHR (Human Resources)</option>
+                    <option value="Jenora SMS">Jenora SMS (School Management)</option>
+                    <option value="Jenora PropertiesConnect">Jenora PropertiesConnect (Real Estate)</option>
+                    <option value="Jenora Tailor Biz Manager">Jenora Tailor Biz Manager</option>
+                    <option value="Jenora Insights">Jenora Insights (Analytics)</option>
+                  </select>
+                </div>
+
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" } as React.CSSProperties}>
                   <div style={fieldGroupStyle}>
                     <label style={labelStyle}>Job Title</label>
@@ -184,23 +201,10 @@ export default function DemoPage() {
                 </div>
 
                 <div style={fieldGroupStyle}>
-                  <label style={labelStyle}>Employee Count</label>
-                  <select 
-                    style={inputStyle} 
-                    onChange={(e) => setFormData({...formData, employees: e.target.value})}
-                  >
-                    <option value="1-10">1-10</option>
-                    <option value="11-50">11-50</option>
-                    <option value="51-200">51-200</option>
-                    <option value="200+">200+</option>
-                  </select>
-                </div>
-
-                <div style={fieldGroupStyle}>
                   <label style={labelStyle}>How can we help?</label>
                   <textarea 
                     rows={3} 
-                    placeholder="Tell us about your workflow goals..." 
+                    placeholder="Tell us about your requirements..." 
                     style={inputStyle} 
                     onChange={(e) => setFormData({...formData, message: e.target.value})}
                   />
@@ -227,7 +231,6 @@ export default function DemoPage() {
   );
 }
 
-// Fixed type definitions for styles
 const labelStyle: React.CSSProperties = { fontSize: "0.85rem", fontWeight: "600", color: "#475569" };
 const fieldGroupStyle: React.CSSProperties = { display: "flex", flexDirection: "column", gap: "0.4rem" };
 const inputStyle: React.CSSProperties = {
