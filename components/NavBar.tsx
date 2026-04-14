@@ -82,42 +82,42 @@ export default function NavBar() {
             Note: We changed 'logo' to 'brand-logo' to escape global CSS constraints
         */}
         <Link 
-          href="/" 
-          className="brand-logo" 
-          style={{ 
-            display: "flex", 
-            alignItems: "center", 
-            textDecoration: "none",
-            gap: "0px",           // Explicitly kill the flex gap
-            width: "fit-content",  // Ensure it doesn't stretch
-            padding: "0"
-          }}
-        >
-          <Image 
-            src="/logo.png" 
-            alt="Jenora Tech Logo" 
-            width={38} 
-            height={38} 
-            priority
-            style={{ 
-              objectFit: "contain",
-              marginRight: "6px", // THIS is the new spacing between shield and text
-              flexShrink: 0
-            }}
-          />
-          <span style={{ 
-            color: "#ffffff", 
-            fontSize: "1.25rem",
-            fontWeight: "700",
-            letterSpacing: "-0.2px",
-            lineHeight: "1",
-            whiteSpace: "nowrap",
-            display: "inline-block"
-          }}>
-            Jenora Tech LTD<span style={{ color: "var(--primary)" }}>.</span>
-          </span>
-        </Link>
-
+  href="/" 
+  className="brand-logo" 
+  style={{ 
+    display: "flex !important", 
+    alignItems: "center !important", 
+    textDecoration: "none",
+    width: "auto !important",
+    padding: "0 !important"
+  }}
+>
+  <Image 
+    src="/logo.png" 
+    alt="Jenora Tech Logo" 
+    width={38} 
+    height={38} 
+    priority
+    style={{ 
+      objectFit: "contain",
+      flexShrink: 0,
+      display: "block"
+    }}
+  />
+  <span style={{ 
+    color: "#ffffff", 
+    fontSize: "1.25rem",
+    fontWeight: "700",
+    letterSpacing: "-0.2px",
+    whiteSpace: "nowrap",
+    // NEGATIVE MARGIN: This pulls the text left, closer to the logo
+    marginLeft: "-4px", 
+    paddingLeft: "0",
+    display: "inline-block"
+  }}>
+    Jenora Tech LTD<span style={{ color: "var(--primary)" }}>.</span>
+  </span>
+</Link>
         <nav className={`nav-menu ${isOpen ? "open" : ""}`}>
           {navLinks.map((link) => (
             <Link
