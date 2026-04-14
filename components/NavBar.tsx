@@ -89,9 +89,7 @@ export default function NavBar() {
     alignItems: "center !important", 
     textDecoration: "none",
     width: "auto !important",
-    padding: "0 !important",
-    // Set a small positive gap for professional spacing
-    gap: "6px !important" 
+    padding: "0 !important"
   }}
 >
   <Image 
@@ -112,8 +110,8 @@ export default function NavBar() {
     fontWeight: "700",
     letterSpacing: "-0.2px",
     whiteSpace: "nowrap",
-    // REMOVED negative margin to allow the 6px gap to work
-    marginLeft: "0", 
+    // NEGATIVE MARGIN: This pulls the text left, closer to the logo
+    marginLeft: "-2px", 
     paddingLeft: "0",
     display: "inline-block"
   }}>
