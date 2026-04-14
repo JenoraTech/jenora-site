@@ -111,7 +111,7 @@ export default function NavBar() {
     letterSpacing: "-0.2px",
     whiteSpace: "nowrap",
     // NEGATIVE MARGIN: This pulls the text left, closer to the logo
-    marginLeft: "-2px", 
+    marginLeft: "-1px", 
     paddingLeft: "0",
     display: "inline-block"
   }}>
