@@ -80,15 +80,17 @@ export default function NavBar() {
         
         {/* Updated Logo Section: Fixes color, size, and extension */}
         {/* Updated Logo Section with a tighter gap and forced white text */}
+{/* Updated Branding: Tighter spacing and forced alignment */}
 <Link 
   href="/" 
   className="logo" 
   style={{ 
     display: "flex", 
     alignItems: "center", 
-    gap: "6px",           // Reduced from 12px to 6px for a tighter feel
     textDecoration: "none",
-    width: "fit-content"   // Prevents the container from taking extra space
+    padding: 0,           // Clear any default padding
+    margin: 0,            // Clear any default margin
+    width: "auto"         // Prevent container from stretching
   }}
 >
   <Image 
@@ -99,16 +101,17 @@ export default function NavBar() {
     priority
     style={{ 
       objectFit: "contain",
-      display: "block",
-      flexShrink: 0       // Prevents the logo from getting squashed
+      marginRight: "8px", // This is the exact spacing between shield and text
+      flexShrink: 0
     }}
   />
   <span style={{ 
-    color: "#ffffff",     // Ensures the name is white
+    color: "#ffffff", 
     fontSize: "1.25rem",
     fontWeight: "700",
     letterSpacing: "-0.2px",
-    whiteSpace: "nowrap"  // Keeps the name on one line
+    lineHeight: "1",      // Ensures text is vertically centered with the logo
+    whiteSpace: "nowrap"
   }}>
     Jenora Tech LTD<span style={{ color: "var(--primary)" }}>.</span>
   </span>
