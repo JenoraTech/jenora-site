@@ -31,6 +31,11 @@ export const metadata: Metadata = {
   description:
     "Empowering African organizations with world-class Business Systems Optimization and Enterprise Software solutions.",
   metadataBase: new URL("https://jenoratech.com.ng"),
+  // Added Icons Configuration
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
   alternates: {
     canonical: "/",
   },
@@ -102,7 +107,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               </div>
             </div>
 
-            {/* Bottom Bar: Clean CSS Hover Implementation */}
+            {/* Bottom Bar */}
             <div style={{ 
               borderTop: "1px solid #f1f5f9", 
               paddingTop: "2rem", 
