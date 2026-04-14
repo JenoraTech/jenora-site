@@ -1,42 +1,84 @@
-import React from "react";
+"use client";
 
-export default async function DemoPage({ 
-  params 
-}: { 
-  params: Promise<{ id?: string }> 
-}) {
-  // 1. Await params to clear the console error shown in your screenshot
-  await params; 
+import React, { useState } from "react";
+
+export default function DemoPage() {
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    organization: "",
+    position: "",
+    email: "",
+    phone: "",
+    employees: "1-10",
+    message: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Error submitting form.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <main style={{ minHeight: "80vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+        <div className="container">
+          <h2 style={{ color: "#0f172a", fontSize: "2.5rem" }}>Check Your Inbox! 📧</h2>
+          <p style={{ color: "#64748b", fontSize: "1.2rem", marginTop: "1rem" }}>
+            Thank you, {formData.name}. We've received your request for {formData.organization} and sent a confirmation email.
+          </p>
+          <button 
+            onClick={() => setSubmitted(false)}
+            style={{ marginTop: "2rem", color: "#2563eb", background: "none", border: "none", cursor: "pointer", fontWeight: "600" }}
+          >
+            ← Send another request
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main>
-      {/* Hero Section - UPDATED COLORS FOR READABILITY */}
+      {/* Hero Section */}
       <section 
         className="section-padding" 
         style={{ 
-          background: "#0f172a", // Solid dark slate
-          color: "#ffffff",      // Force white text
-          paddingTop: "100px",   // Extra space for the fixed navbar
-          paddingBottom: "80px"
+          background: "#0f172a", 
+          color: "#ffffff", 
+          paddingTop: "120px", 
+          paddingBottom: "80px" 
         }}
       >
         <div className="container">
           <div style={{ maxWidth: "800px" }}>
-            <h1 style={{ 
-              fontSize: "clamp(2.5rem, 6vw, 4rem)", 
-              marginBottom: "1.5rem",
-              color: "#ffffff",  // Explicitly set headline to white
-              fontWeight: "800"
-            }}>
+            <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", marginBottom: "1.5rem", fontWeight: "800" }}>
               See JenoraFlow in Action
             </h1>
-            <p style={{ 
-              fontSize: "1.25rem", 
-              color: "#94a3b8",   // Light slate for the subtext
-              lineHeight: "1.6" 
-            }}>
-              Discover how our automated workflow engine can eliminate bottlenecks, 
-              improve transparency, and scale your organization's operations.
+            <p style={{ fontSize: "1.25rem", color: "#94a3b8", lineHeight: "1.6" }}>
+              Discover how our automated workflow engine can eliminate bottlenecks and scale your operations.
             </p>
           </div>
         </div>
@@ -48,25 +90,23 @@ export default async function DemoPage({
           <div style={{ 
             display: "grid", 
             gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", 
-            gap: "5rem", 
+            gap: "4rem", 
             alignItems: "start" 
           }}>
             
-            {/* Left Column: Expectations */}
+            {/* Left: Expectations */}
             <div>
               <h2 style={{ fontSize: "2rem", marginBottom: "2rem", color: "#1e293b" }}>What to expect</h2>
               <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "2rem" }}>
                 {[
-                  { title: "Personalized Walkthrough", desc: "A 30-minute session tailored to your specific organizational challenges." },
-                  { title: "Efficiency Audit", desc: "We'll identify manual processes that are currently costing you time and money." },
-                  { title: "Implementation Roadmap", desc: "Get a clear step-by-step plan for deploying JenoraFlow in your team." }
+                  { title: "Personalized Walkthrough", desc: "A session tailored to your specific organizational challenges." },
+                  { title: "Efficiency Audit", desc: "We'll identify manual processes costing you time." },
+                  { title: "Implementation Roadmap", desc: "A clear plan for deploying JenoraFlow in your team." }
                 ].map((item, index) => (
                   <li key={index} style={{ display: "flex", gap: "1rem" }}>
                     <span style={{ 
-                      background: "#f1f5f9", 
-                      color: "#2563eb",
-                      width: "32px", height: "32px", borderRadius: "50%", 
-                      display: "flex", alignItems: "center", justifyContent: "center",
+                      background: "#f1f5f9", color: "#2563eb", width: "32px", height: "32px", 
+                      borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
                       fontWeight: "700", flexShrink: 0
                     }}>
                       {index + 1}
@@ -80,47 +120,85 @@ export default async function DemoPage({
               </ul>
             </div>
 
-            {/* Right Column: Form */}
-            <div className="feature-card" style={{ 
-              padding: "2.5rem", 
-              backgroundColor: "#ffffff",
-              borderRadius: "12px",
-              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)"
+            {/* Right: The Form */}
+            <div style={{ 
+              padding: "2.5rem", backgroundColor: "#ffffff", borderRadius: "12px",
+              boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)" 
             }}>
               <h3 style={{ marginBottom: "1.5rem", color: "#0f172a" }}>Request a Session</h3>
-              <form style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                {/* Form fields stay the same as previous logic */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-                    <label style={{ fontSize: "0.85rem", fontWeight: "600" }}>Name</label>
-                    <input type="text" placeholder="John Doe" style={inputStyle} />
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-                    <label style={{ fontSize: "0.85rem", fontWeight: "600" }}>Organization</label>
-                    <input type="text" placeholder="Company Name" style={inputStyle} />
-                  </div>
-                </div>
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
                 
-                {/* Email Field */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-                  <label style={{ fontSize: "0.85rem", fontWeight: "600" }}>Email</label>
-                  <input type="email" placeholder="work@email.com" style={inputStyle} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                  <div style={fieldGroupStyle}>
+                    <label style={labelStyle}>Name</label>
+                    <input 
+                      required 
+                      type="text" 
+                      placeholder="John Doe" 
+                      style={inputStyle} 
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    />
+                  </div>
+                  <div style={fieldGroupStyle}>
+                    <label style={labelStyle}>Organization</label>
+                    <input 
+                      required 
+                      type="text" 
+                      placeholder="Company Name" 
+                      style={inputStyle} 
+                      onChange={(e) => setFormData({...formData, organization: e.target.value})}
+                    />
+                  </div>
                 </div>
 
-                <button type="submit" style={{ 
-                  backgroundColor: "#2563eb", 
-                  color: "#fff", 
-                  padding: "14px", 
-                  borderRadius: "6px", 
-                  border: "none",
-                  fontWeight: "600",
-                  cursor: "pointer",
-                  marginTop: "1rem"
-                }}>
-                  Schedule My Demo
+                <div style={fieldGroupStyle}>
+                  <label style={labelStyle}>Work Email</label>
+                  <input 
+                    required 
+                    type="email" 
+                    placeholder="name@company.com" 
+                    style={inputStyle} 
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  />
+                </div>
+
+                <div style={fieldGroupStyle}>
+                  <label style={labelStyle}>Employee Count</label>
+                  <select 
+                    style={inputStyle} 
+                    onChange={(e) => setFormData({...formData, employees: e.target.value})}
+                  >
+                    <option value="1-10">1-10</option>
+                    <option value="11-50">11-50</option>
+                    <option value="51-200">51-200</option>
+                    <option value="200+">200+</option>
+                  </select>
+                </div>
+
+                <div style={fieldGroupStyle}>
+                  <label style={labelStyle}>How can we help?</label>
+                  <textarea 
+                    rows={3} 
+                    placeholder="Tell us about your workflow goals..." 
+                    style={inputStyle} 
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  />
+                </div>
+
+                <button 
+                  type="submit" 
+                  disabled={loading}
+                  style={{ 
+                    backgroundColor: loading ? "#94a3b8" : "#2563eb", 
+                    color: "#fff", padding: "14px", borderRadius: "6px", border: "none",
+                    fontWeight: "600", cursor: loading ? "not-allowed" : "pointer"
+                  }}
+                >
+                  {loading ? "Scheduling..." : "Schedule My Demo"}
                 </button>
               </form>
             </div>
+
           </div>
         </div>
       </section>
@@ -128,6 +206,8 @@ export default async function DemoPage({
   );
 }
 
+const labelStyle = { fontSize: "0.85rem", fontWeight: "600", color: "#475569" };
+const fieldGroupStyle = { display: "flex", flexDirection: "column", gap: "0.4rem" };
 const inputStyle = {
   padding: "10px 14px",
   borderRadius: "6px",
