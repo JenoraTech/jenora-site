@@ -24,7 +24,7 @@ const transformationFeatures = [
   },
 ];
 
-// Why Choose Us Section
+// Value Proposition
 const whyChooseUs = [
   {
     heading: "Operational Intelligence",
@@ -78,7 +78,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Primary Services Feature Grid */}
+      {/* Services Feature Grid */}
       <section className="section-padding bg-accent">
         <div className="container">
           <FeatureGrid
@@ -92,7 +92,7 @@ export default function HomePage() {
       
       {/* 1. JenoraFlow Highlight */}
       <section className="platform section-padding bg-white">
-        <div className="container grid-two-col">
+        <div className="container grid-two-col" style={{ alignItems: 'center', gap: '4rem' }}>
           <div className="platform-text">
             <span className="badge">Featured Platform</span>
             <h2>Introducing JenoraFlow</h2>
@@ -101,34 +101,40 @@ export default function HomePage() {
               organizations automate approvals, streamline processes, and gain 
               real-time visibility into operational activities.
             </p>
-            <ul className="feature-list">
+            <ul className="feature-list" style={{ marginBottom: '2rem' }}>
               <li>Workflow automation & builder</li>
               <li>Role-based approvals & tracking</li>
               <li>Operational dashboards & Analytics</li>
+              <li>Task management & reporting</li>
             </ul>
             <Link href="/demo" className="btn btn-primary">
               Request JenoraFlow Demo
             </Link>
           </div>
           <div className="platform-visual">
-            <div className="visual-card">
+            <div className="visual-card" style={{ minHeight: '350px' }}>
               <div className="skeleton-ui" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. JenoraHR Highlight */}
+      {/* 2. JenoraHR Highlight - Using Flex Order for Alignment Stability */}
       <section className="platform section-padding bg-accent">
-        <div className="container grid-two-col" style={{ direction: 'rtl' }}>
-          <div className="platform-text" style={{ direction: 'ltr' }}>
+        <div className="container grid-two-col" style={{ alignItems: 'center', gap: '4rem' }}>
+          <div className="platform-visual" style={{ order: 2 }}>
+            <div className="visual-card" style={{ minHeight: '350px' }}>
+              <div className="skeleton-ui" />
+            </div>
+          </div>
+          <div className="platform-text" style={{ order: 1 }}>
             <span className="badge">HR & Workforce</span>
             <h2>Empower People with JenoraHR</h2>
             <p>
               A comprehensive human resource management system designed for 
               managing the entire employee lifecycle, from onboarding to payroll.
             </p>
-            <ul className="feature-list">
+            <ul className="feature-list" style={{ marginBottom: '2rem' }}>
               <li>Centralized Employee Records</li>
               <li>Leave & Attendance Automation</li>
               <li>Seamless Payroll Integration</li>
@@ -138,17 +144,12 @@ export default function HomePage() {
               Explore HR Solutions
             </Link>
           </div>
-          <div className="platform-visual">
-            <div className="visual-card">
-              <div className="skeleton-ui" />
-            </div>
-          </div>
         </div>
       </section>
 
       {/* 3. Jenora SMS Highlight */}
       <section className="platform section-padding bg-white">
-        <div className="container grid-two-col">
+        <div className="container grid-two-col" style={{ alignItems: 'center', gap: '4rem' }}>
           <div className="platform-text">
             <span className="badge">Education</span>
             <h2>Jenora School Management (SMS)</h2>
@@ -156,18 +157,18 @@ export default function HomePage() {
               Transform your educational institution with a unified platform 
               that manages student records, academic results, and administrative workflows.
             </p>
-            <ul className="feature-list">
-              <li>Student & Staff Records</li>
-              <li>Automated Result Management</li>
+            <ul className="feature-list" style={{ marginBottom: '2rem' }}>
+              <li>Student & Staff Records Management</li>
+              <li>Automated Result Processing</li>
               <li>Attendance & Activity Tracking</li>
-              <li>Administrative Efficiency</li>
+              <li>Administrative & Operational Efficiency</li>
             </ul>
             <Link href="/products" className="btn btn-outline">
               Learn More About SMS
             </Link>
           </div>
           <div className="platform-visual">
-            <div className="visual-card">
+            <div className="visual-card" style={{ minHeight: '350px' }}>
               <div className="skeleton-ui" />
             </div>
           </div>
@@ -176,15 +177,20 @@ export default function HomePage() {
 
       {/* 4. Intelligence & Insights Highlight */}
       <section className="platform section-padding bg-accent">
-        <div className="container grid-two-col" style={{ direction: 'rtl' }}>
-          <div className="platform-text" style={{ direction: 'ltr' }}>
+        <div className="container grid-two-col" style={{ alignItems: 'center', gap: '4rem' }}>
+          <div className="platform-visual" style={{ order: 2 }}>
+            <div className="visual-card" style={{ minHeight: '350px' }}>
+              <div className="skeleton-ui" />
+            </div>
+          </div>
+          <div className="platform-text" style={{ order: 1 }}>
             <span className="badge">Analytics</span>
             <h2>Data-Driven Decisions with Insights</h2>
             <p>
               Our Business Intelligence platform provides real-time analytics 
               and decision support tools to help leadership monitor performance.
             </p>
-            <ul className="feature-list">
+            <ul className="feature-list" style={{ marginBottom: '2rem' }}>
               <li>Live Operational Dashboards</li>
               <li>Performance Tracking (KPIs)</li>
               <li>Automated Reporting Tools</li>
@@ -193,11 +199,6 @@ export default function HomePage() {
             <Link href="/products" className="btn btn-primary">
               Discover Jenora Insights
             </Link>
-          </div>
-          <div className="platform-visual">
-            <div className="visual-card">
-              <div className="skeleton-ui" />
-            </div>
           </div>
         </div>
       </section>
