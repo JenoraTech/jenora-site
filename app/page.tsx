@@ -1,10 +1,8 @@
-"use client";
-
-import Link from "next/link";
 import CTA from "../components/CTA";
 import FeatureGrid from "../components/FeatureGrid";
+import Link from "next/link";
 
-// Data objects moved outside to optimize re-renders
+// Professional Tip: Move data out of the component to keep the render function clean
 const transformationFeatures = [
   {
     heading: "Enterprise Workflow Automation",
@@ -52,28 +50,8 @@ const industries = [
 ];
 
 export default function HomePage() {
-  // Shared styles for section consistency
-  const containerStyle: React.CSSProperties = {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: '4rem',
-    justifyContent: 'space-between'
-  };
-
-  const textColumnStyle: React.CSSProperties = {
-    flex: '1 1 450px',
-    maxWidth: '600px'
-  };
-
-  const visualColumnStyle: React.CSSProperties = {
-    flex: '1 1 400px',
-    display: 'flex',
-    justifyContent: 'center'
-  };
-
   return (
-    <main>
+    <>
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-overlay" />
@@ -97,7 +75,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Services Feature Grid */}
+      {/* Feature Grid 1 - Primary Services */}
       <section className="section-padding bg-accent">
         <div className="container">
           <FeatureGrid
@@ -107,129 +85,41 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 1. JenoraFlow Highlight */}
-      <section className="platform section-padding bg-white">
-        <div className="container" style={containerStyle}>
-          <div className="platform-text" style={textColumnStyle}>
-            <span className="badge">Core Platform</span>
+      {/* Platform Section - Featured Product */}
+      <section className="platform section-padding">
+        <div className="container grid-two-col">
+          <div className="platform-text">
+            <span className="badge">Featured Product</span>
             <h2>Introducing JenoraFlow</h2>
             <p>
-              A modern enterprise workflow management platform designed to help 
-              organizations automate approvals, streamline processes, and gain 
-              real-time visibility into operational activities.
+              JenoraFlow is a modern enterprise workflow management platform
+              designed to help organizations automate approvals, streamline
+              processes, and gain real-time visibility into operational activities.
             </p>
-            <ul className="feature-list" style={{ marginBottom: '2rem' }}>
-              <li>Workflow automation & builder</li>
-              <li>Role-based approvals & tracking</li>
-              <li>Operational dashboards & Analytics</li>
-              <li>Task management & reporting</li>
+            <ul className="feature-list">
+              <li>Workflow automation</li>
+              <li>Process tracking</li>
+              <li>Role-based approvals</li>
+              <li>Task management</li>
+              <li>Operational dashboards</li>
+              <li>Analytics and reporting</li>
             </ul>
             <Link href="/demo" className="btn btn-primary">
-              Request JenoraFlow Demo
+              Request Product Demo
             </Link>
           </div>
-          <div className="platform-visual" style={visualColumnStyle}>
-            <div className="visual-card" style={{ width: '100%', minHeight: '380px' }}>
+          <div className="platform-visual">
+            {/* Professional placeholder for product screenshot/illustration */}
+            <div className="visual-card">
               <div className="skeleton-ui" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. JenoraHR Highlight (Swapped Layout) */}
-      <section className="platform section-padding bg-accent">
-        <div className="container" style={containerStyle}>
-          <div className="platform-visual" style={{ ...visualColumnStyle, order: 2 }}>
-            <div className="visual-card" style={{ width: '100%', minHeight: '380px' }}>
-              <div className="skeleton-ui" />
-            </div>
-          </div>
-          <div className="platform-text" style={{ ...textColumnStyle, order: 1 }}>
-            <span className="badge">HR & Workforce</span>
-            <h2>Empower People with JenoraHR</h2>
-            <p>
-              A comprehensive human resource management system designed for 
-              managing the entire employee lifecycle, from onboarding to payroll.
-            </p>
-            <ul className="feature-list" style={{ marginBottom: '2rem' }}>
-              <li>Centralized Employee Records</li>
-              <li>Leave & Attendance Automation</li>
-              <li>Seamless Payroll Integration</li>
-              <li>Performance & Growth Tracking</li>
-            </ul>
-            <Link href="/products" className="btn btn-outline">
-              Explore HR Solutions
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Jenora SMS Highlight */}
-      <section className="platform section-padding bg-white">
-        <div className="container" style={containerStyle}>
-          <div className="platform-text" style={textColumnStyle}>
-            <span className="badge">Education</span>
-            <h2>Jenora School Management (SMS)</h2>
-            <p>
-              Transform your educational institution with a unified platform 
-              that manages student records, academic results, and administrative workflows.
-            </p>
-            <ul className="feature-list" style={{ marginBottom: '2rem' }}>
-              <li>Student & Staff Records Management</li>
-              <li>Automated Result Processing</li>
-              <li>Attendance & Activity Tracking</li>
-              <li>Administrative & Operational Efficiency</li>
-            </ul>
-            <Link href="/products" className="btn btn-outline">
-              Learn More About SMS
-            </Link>
-          </div>
-          <div className="platform-visual" style={visualColumnStyle}>
-            <div className="visual-card" style={{ width: '100%', minHeight: '380px' }}>
-              <div className="skeleton-ui" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Intelligence & Insights Highlight (Swapped Layout) */}
-      <section className="platform section-padding bg-accent">
-        <div className="container" style={containerStyle}>
-          <div className="platform-visual" style={{ ...visualColumnStyle, order: 2 }}>
-            <div className="visual-card" style={{ width: '100%', minHeight: '380px' }}>
-              <div className="skeleton-ui" />
-            </div>
-          </div>
-          <div className="platform-text" style={{ ...textColumnStyle, order: 1 }}>
-            <span className="badge">Analytics</span>
-            <h2>Data-Driven Decisions with Insights</h2>
-            <p>
-              Our Business Intelligence platform provides real-time analytics 
-              and decision support tools to help leadership monitor performance.
-            </p>
-            <ul className="feature-list" style={{ marginBottom: '2rem' }}>
-              <li>Live Operational Dashboards</li>
-              <li>Performance Tracking (KPIs)</li>
-              <li>Automated Reporting Tools</li>
-              <li>Custom Business Analytics</li>
-            </ul>
-            <Link href="/products" className="btn btn-primary">
-              Discover Jenora Insights
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Ecosystem Summary Grid */}
+      {/* Feature Grid 2 - Value Proposition */}
       <section className="section-padding bg-white">
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-            <h2 style={{ marginBottom: '1rem' }}>Integrated Digital Infrastructure</h2>
-            <p style={{ maxWidth: '700px', margin: '0 auto', color: 'var(--text-muted)', fontSize: '1.1rem' }}>
-              All Jenora products are designed to work together seamlessly, 
-              giving your organization a unified digital ecosystem.
-            </p>
-          </div>
           <FeatureGrid
             title="Why Organizations Choose Jenora Tech"
             items={whyChooseUs}
@@ -260,6 +150,6 @@ export default function HomePage() {
           { text: "Schedule Product Demo", link: "/demo" },
         ]}
       />
-    </main>
+    </>
   );
 }
