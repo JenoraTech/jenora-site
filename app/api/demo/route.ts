@@ -6,12 +6,12 @@ import { createClient } from "@/utils/supabase/server";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, organization, position, email, phone, employees, message } = body;
+    const { name, organization, position, email, phone, employees, product, message } = body;
 
     // 1. Server-Side Validation
-    if (!name || !email || !organization) {
+    if (!name || !email || !organization || !product) {
       return NextResponse.json(
-        { success: false, message: "Required fields (Name, Email, Organization) are missing." },
+        { success: false, message: "Required fields (Name, Email, Organization, Product) are missing." },
         { status: 400 }
       );
     }
@@ -20,8 +20,7 @@ export async function POST(request: Request) {
     const cookieStore = await cookies();
     const supabase = createClient(cookieStore);
 
-    // 3. Save to Database (Demo Requests Table)
-    // Make sure you have a "demo_requests" table in Supabase with these columns
+    // 3. Save to Database
     const { error: dbError } = await supabase
       .from("demo_requests") 
       .insert([
@@ -32,13 +31,13 @@ export async function POST(request: Request) {
           email,
           phone,
           employees,
+          product, // Now saving the specific product requested
           message,
         },
       ]);
 
     if (dbError) {
       console.error("❌ SUPABASE DB ERROR:", dbError.message);
-      // We continue to email even if DB fails, or you can return error here
     } else {
       console.log("✅ DEMO DATA SAVED TO SUPABASE");
     }
@@ -62,10 +61,11 @@ export async function POST(request: Request) {
         from: `"Jenora Demo Portal" <${process.env.EMAIL_USER}>`,
         to: "info@jenoratech.com.ng",
         replyTo: email,
-        subject: `New Demo Request: ${organization}`,
+        subject: `New Demo Request: ${product} - ${organization}`,
         html: `
           <div style="font-family: sans-serif; max-width: 600px; color: #333;">
             <h2 style="color: #0f172a; border-bottom: 2px solid #3b82f6; padding-bottom: 10px;">New Demo Request</h2>
+            <p><strong>Product Requested:</strong> <span style="color: #2563eb; font-weight: bold;">${product}</span></p>
             <p><strong>Name:</strong> ${name}</p>
             <p><strong>Organization:</strong> ${organization}</p>
             <p><strong>Position:</strong> ${position || "Not specified"}</p>
@@ -84,14 +84,20 @@ export async function POST(request: Request) {
       await transporter.sendMail({
         from: `"Jenora Tech Ltd" <${process.env.EMAIL_USER}>`,
         to: email,
-        subject: "JenoraFlow Demo Request Received",
-        text: `Dear ${name},\n\nThank you for requesting a demo of JenoraFlow. We have received your details for ${organization} and our team will contact you soon to schedule a personalized session.\n\nBest regards,\nThe Jenora Tech Team`,
+        subject: `Your ${product} Demo Request`,
+        html: `
+          <div style="font-family: sans-serif; line-height: 1.6; color: #333;">
+            <p>Dear ${name},</p>
+            <p>Thank you for requesting a demo of <strong>${product}</strong>.</p>
+            <p>We have received your details for <strong>${organization}</strong> and our team will contact you shortly to schedule a personalized session that addresses your specific operational needs.</p>
+            <p>Best regards,<br /><strong>The Jenora Tech Team</strong></p>
+          </div>
+        `,
       });
 
       console.log("✅ DEMO EMAILS SENT SUCCESSFULLY");
     } catch (mailError: any) {
       console.error("⚠️ MAIL ERROR:", mailError.message);
-      // We don't crash the whole request if only the email fails
     }
 
     return NextResponse.json({ 
