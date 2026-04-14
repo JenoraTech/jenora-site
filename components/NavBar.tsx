@@ -115,7 +115,7 @@ export default function NavBar() {
     paddingLeft: "0",
     display: "inline-block"
   }}>
-    Jenora Tech LTD<span style={{ color: "var(--primary)" }}>.</span>
+    enora Tech LTD<span style={{ color: "var(--primary)" }}>.</span>
   </span>
 </Link>
         <nav className={`nav-menu ${isOpen ? "open" : ""}`}>
