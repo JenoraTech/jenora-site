@@ -78,44 +78,45 @@ export default function NavBar() {
     <header className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <div className="container">
         
-        {/* Updated Logo Section: Fixes color, size, and extension */}
-        {/* Updated Logo Section with a tighter gap and forced white text */}
-{/* Updated Branding: Tighter spacing and forced alignment */}
-<Link 
-  href="/" 
-  className="logo" 
-  style={{ 
-    display: "flex", 
-    alignItems: "center", 
-    textDecoration: "none",
-    padding: 0,           // Clear any default padding
-    margin: 0,            // Clear any default margin
-    width: "auto"         // Prevent container from stretching
-  }}
->
-  <Image 
-    src="/logo.png" 
-    alt="Jenora Tech Logo" 
-    width={38} 
-    height={38} 
-    priority
-    style={{ 
-      objectFit: "contain",
-      marginRight: "8px", // This is the exact spacing between shield and text
-      flexShrink: 0
-    }}
-  />
-  <span style={{ 
-    color: "#ffffff", 
-    fontSize: "1.25rem",
-    fontWeight: "700",
-    letterSpacing: "-0.2px",
-    lineHeight: "1",      // Ensures text is vertically centered with the logo
-    whiteSpace: "nowrap"
-  }}>
-    Jenora Tech LTD<span style={{ color: "var(--primary)" }}>.</span>
-  </span>
-</Link>
+        {/* BRANDING SECTION 
+            Note: We changed 'logo' to 'brand-logo' to escape global CSS constraints
+        */}
+        <Link 
+          href="/" 
+          className="brand-logo" 
+          style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            textDecoration: "none",
+            gap: "0px",           // Explicitly kill the flex gap
+            width: "fit-content",  // Ensure it doesn't stretch
+            padding: "0"
+          }}
+        >
+          <Image 
+            src="/logo.png" 
+            alt="Jenora Tech Logo" 
+            width={38} 
+            height={38} 
+            priority
+            style={{ 
+              objectFit: "contain",
+              marginRight: "6px", // THIS is the new spacing between shield and text
+              flexShrink: 0
+            }}
+          />
+          <span style={{ 
+            color: "#ffffff", 
+            fontSize: "1.25rem",
+            fontWeight: "700",
+            letterSpacing: "-0.2px",
+            lineHeight: "1",
+            whiteSpace: "nowrap",
+            display: "inline-block"
+          }}>
+            Jenora Tech LTD<span style={{ color: "var(--primary)" }}>.</span>
+          </span>
+        </Link>
 
         <nav className={`nav-menu ${isOpen ? "open" : ""}`}>
           {navLinks.map((link) => (
