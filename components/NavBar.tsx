@@ -79,38 +79,40 @@ export default function NavBar() {
       <div className="container">
         
         {/* Updated Logo Section: Fixes color, size, and extension */}
-        <Link 
-          href="/" 
-          className="logo" 
-          style={{ 
-            display: "flex", 
-            alignItems: "center", 
-            gap: "12px", 
-            textDecoration: "none" 
-          }}
-        >
-          <Image 
-            src="/logo.png" 
-            alt="Jenora Tech Logo" 
-            width={42} 
-            height={42} 
-            priority
-            style={{ 
-              objectFit: "contain",
-              display: "block"
-            }}
-          />
-          <span style={{ 
-            display: "flex", 
-            alignItems: "center",
-            color: "#ffffff", 
-            fontSize: "1.25rem",
-            fontWeight: "700",
-            letterSpacing: "-0.2px"
-          }}>
-            Jenora Tech LTD<span style={{ color: "var(--primary)" }}>.</span>
-          </span>
-        </Link>
+        {/* Updated Logo Section with a tighter gap and forced white text */}
+<Link 
+  href="/" 
+  className="logo" 
+  style={{ 
+    display: "flex", 
+    alignItems: "center", 
+    gap: "6px",           // Reduced from 12px to 6px for a tighter feel
+    textDecoration: "none",
+    width: "fit-content"   // Prevents the container from taking extra space
+  }}
+>
+  <Image 
+    src="/logo.png" 
+    alt="Jenora Tech Logo" 
+    width={38} 
+    height={38} 
+    priority
+    style={{ 
+      objectFit: "contain",
+      display: "block",
+      flexShrink: 0       // Prevents the logo from getting squashed
+    }}
+  />
+  <span style={{ 
+    color: "#ffffff",     // Ensures the name is white
+    fontSize: "1.25rem",
+    fontWeight: "700",
+    letterSpacing: "-0.2px",
+    whiteSpace: "nowrap"  // Keeps the name on one line
+  }}>
+    Jenora Tech LTD<span style={{ color: "var(--primary)" }}>.</span>
+  </span>
+</Link>
 
         <nav className={`nav-menu ${isOpen ? "open" : ""}`}>
           {navLinks.map((link) => (
