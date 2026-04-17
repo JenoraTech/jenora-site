@@ -1,4 +1,8 @@
+'use client';
+
 import Link from "next/link";
+import motion from "./client-motion"; // Import as default
+import type { Variants } from "framer-motion";
 
 interface CTAButton {
   text: string;
@@ -13,40 +17,96 @@ interface CTAProps {
   variant?: "light" | "dark" | "brand"; 
 }
 
-/**
- * Call-to-Action Component
- * Designed to be used at the bottom of pages to drive conversions.
- */
 export default function CTA({ title, description, buttons, variant = "brand" }: CTAProps) {
-  // Map the internal variant name to the CSS class suffix
   const sectionClass = variant === "dark" || variant === "brand" ? "cta-brand" : "cta-light";
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 10
+      }
+    }
+  };
+
+  const buttonMotionProps = {
+    whileHover: { scale: 1.05 },
+    whileTap: { scale: 0.95 }
+  };
+
+  const rippleVariants = {
+    initial: { scale: 0 },
+    hover: { scale: 1 }
+  };
+
   return (
-    <section className={`cta-section ${sectionClass}`} aria-labelledby="cta-title">
+    <motion.section 
+      className={`cta-section ${sectionClass}`} 
+      aria-labelledby="cta-title"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={containerVariants}
+    >
       <div className="container">
-        <div className="cta-content">
-          <h2 id="cta-title" className="section-title">
+        <motion.div className="cta-content" variants={containerVariants}>
+          <motion.h2 
+            id="cta-title" 
+            className="section-title"
+            variants={itemVariants}
+          >
             {title}
-          </h2>
-          <p className="cta-description">
-            {description}
-          </p>
+          </motion.h2>
           
-          <div className="cta-buttons">
+          <motion.p 
+            className="cta-description"
+            variants={itemVariants}
+          >
+            {description}
+          </motion.p>
+          
+          <motion.div className="cta-buttons">
             {buttons.map((btn, index) => (
-              <Link
+              <motion.div
                 key={`${btn.link}-${index}`}
-                href={btn.link}
-                className={`btn ${
-                  btn.variant === "outline" ? "btn-outline" : "btn-primary"
-                }`}
+                variants={itemVariants}
+                {...buttonMotionProps}
               >
-                {btn.text}
-              </Link>
+                <Link
+                  href={btn.link}
+                  className={`btn ${
+                    btn.variant === "outline" ? "btn-outline" : "btn-primary"
+                  }`}
+                >
+                  {btn.text}
+                  <motion.span
+                    className="btn-ripple"
+                    initial="initial"
+                    whileHover="hover"
+                    variants={rippleVariants}
+                    transition={{ duration: 0.6 }}
+                  />
+                </Link>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

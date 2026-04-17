@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 
 // Professional Tip: Define a type for your form status
 type FormStatus = "idle" | "submitting" | "success" | "error";
@@ -11,6 +11,7 @@ export default function ContactForm() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("submitting");
+    setMessage("");
 
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
@@ -18,19 +19,28 @@ export default function ContactForm() {
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data),
       });
 
       if (!res.ok) throw new Error("Failed to send message");
 
       const result = await res.json();
+
       setStatus("success");
-      setMessage(result.message || "Thank you! Our team will contact you shortly.");
+      setMessage(
+        result.message || "Thank you! Our team will contact you shortly."
+      );
+
       (e.target as HTMLFormElement).reset(); // Clear form on success
     } catch (err) {
+      console.error("Contact form error:", err);
       setStatus("error");
-      setMessage("Something went wrong. Please try again or email us directly.");
+      setMessage(
+        "Something went wrong. Please try again or email us directly."
+      );
     }
   }
 
@@ -43,35 +53,53 @@ export default function ContactForm() {
 
       <div className="form-group">
         <label htmlFor="organization">Organization Name</label>
-        <input type="text" id="organization" name="organization" placeholder="Jenora Tech Ltd" required />
+        <input
+          type="text"
+          id="organization"
+          name="organization"
+          placeholder="Jenora Tech Ltd"
+          required
+        />
       </div>
 
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
-          <input type="email" id="email" name="email" placeholder="email@company.com" required />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="email@company.com"
+            required
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" placeholder="+234..." required />
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="+234..."
+            required
+          />
         </div>
       </div>
 
       <div className="form-group">
         <label htmlFor="message">Message</label>
-        <textarea 
-          id="message" 
-          name="message" 
-          rows={5} 
+        <textarea
+          id="message"
+          name="message"
+          rows={5}
           placeholder="How can we help optimize your systems?"
-          required 
+          required
         ></textarea>
       </div>
 
-      <button 
-        type="submit" 
-        className="btn btn-primary" 
+      <button
+        type="submit"
+        className="btn btn-primary"
         disabled={status === "submitting"}
       >
         {status === "submitting" ? "Sending..." : "Submit Inquiry"}

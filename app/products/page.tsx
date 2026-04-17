@@ -1,6 +1,10 @@
+'use client'; // Add this to mark the component as client-side
+
 import React from "react";
 import Link from "next/link";
 import CTA from "@/components/CTA";
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer, slideIn, zoomIn } from "@/utils/motion";
 
 // 1. Interfaces to prevent "Property does not exist" errors
 interface Product {
@@ -109,34 +113,74 @@ export default function ProductsPage() {
   return (
     <main>
       {/* Header Section */}
-      <section className="section-padding" style={{ background: "var(--accent)", borderBottom: "1px solid #e2e8f0" }}>
+      <motion.section 
+        className="section-padding" 
+        style={{ background: "var(--accent)", borderBottom: "1px solid #e2e8f0" }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ margin: "-100px 0px 0px 0px" }}
+        variants={staggerContainer(0.1, 0.2)}
+      >
         <div className="container" style={{ textAlign: "center" }}>
-          <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)" }}>Our Products</h1>
-          <p style={{ maxWidth: "800px", margin: "1.5rem auto 0", fontSize: "1.2rem", color: "var(--text-muted)" }}>
+          <motion.h1 
+            style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)" }}
+            variants={fadeIn('up', 'tween', 0.2, 1)}
+          >
+            Our Products
+          </motion.h1>
+          <motion.p 
+            style={{ maxWidth: "800px", margin: "1.5rem auto 0", fontSize: "1.2rem", color: "var(--text-muted)" }}
+            variants={fadeIn('up', 'tween', 0.3, 1)}
+          >
             A suite of enterprise software solutions designed to help organizations
             automate operations, improve efficiency, and gain real-time visibility.
-          </p>
+          </motion.p>
         </div>
-      </section>
+      </motion.section>
 
       {/* Product Categories */}
-      <section className="section-padding">
+      <motion.section 
+        className="section-padding"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ margin: "-100px 0px 0px 0px" }}
+        variants={staggerContainer(0.1, 0.2)}
+      >
         <div className="container">
           {productCategories.map((category, idx) => (
-            <div key={idx} style={{ marginBottom: "var(--space-lg)" }}>
-              <h2 style={{ 
-                fontSize: "1.75rem", 
-                borderBottom: "2px solid var(--secondary)", 
-                display: "inline-block", 
-                marginBottom: "var(--space-md)",
-                paddingBottom: "4px"
-              }}>
+            <motion.div 
+              key={idx} 
+              style={{ marginBottom: "var(--space-lg)" }}
+              variants={staggerContainer(0.1, 0.2)}
+            >
+              <motion.h2 
+                style={{ 
+                  fontSize: "1.75rem", 
+                  borderBottom: "2px solid var(--secondary)", 
+                  display: "inline-block", 
+                  marginBottom: "var(--space-md)",
+                  paddingBottom: "4px"
+                }}
+                variants={fadeIn('up', 'tween', 0.2, 1)}
+              >
                 {category.category}
-              </h2>
+              </motion.h2>
 
-              <div className="grid">
+              <motion.div 
+                className="grid"
+                variants={staggerContainer(0.1, 0.2)}
+              >
                 {category.items.map((product, i) => (
-                  <div key={i} className="feature-card" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                  <motion.div 
+                    key={i} 
+                    className="feature-card" 
+                    style={{ height: "100%", display: "flex", flexDirection: "column" }}
+                    variants={zoomIn(0.2 + i * 0.1, 1)}
+                    whileHover={{ 
+                      y: -5,
+                      boxShadow: "0 10px 20px rgba(0,0,0,0.1)"
+                    }}
+                  >
                     <h3 style={{ fontSize: "1.4rem", color: "var(--primary)" }}>{product.name}</h3>
                     <p style={{ color: "var(--text-muted)", margin: "0.75rem 0 1.5rem" }}>
                       {product.description}
@@ -144,59 +188,91 @@ export default function ProductsPage() {
 
                     <ul style={{ listStyle: "none", marginBottom: "auto" }}>
                       {product.features.map((feature, j) => (
-                        <li key={j} style={{ 
-                          fontSize: "0.9rem", 
-                          marginBottom: "0.5rem", 
-                          display: "flex", 
-                          alignItems: "center",
-                          color: "var(--text-main)" 
-                        }}>
+                        <motion.li 
+                          key={j} 
+                          style={{ 
+                            fontSize: "0.9rem", 
+                            marginBottom: "0.5rem", 
+                            display: "flex", 
+                            alignItems: "center",
+                            color: "var(--text-main)" 
+                          }}
+                          variants={fadeIn('up', 'tween', 0.2 + j * 0.1, 1)}
+                        >
                           <span style={{ color: "var(--secondary)", marginRight: "10px", fontWeight: "bold" }}>✓</span>
                           {feature}
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
 
                     {/* TypeScript Guard: Only render button if product.cta exists */}
                     {product.cta && (
-                      <Link 
-                        href={product.ctaLink || "/contact"} 
-                        className="btn btn-primary" 
-                        style={{ marginTop: "1.5rem", alignSelf: "flex-start" }}
+                      <motion.div 
+                        variants={fadeIn('up', 'tween', 0.4, 1)}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        {product.cta}
-                      </Link>
+                        <Link 
+                          href={product.ctaLink || "/contact"} 
+                          className="btn btn-primary" 
+                          style={{ marginTop: "1.5rem", alignSelf: "flex-start" }}
+                        >
+                          {product.cta}
+                        </Link>
+                      </motion.div>
                     )}
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* Ecosystem Section */}
-      <section className="section-padding" style={{ background: "var(--primary)", color: "white", textAlign: "center" }}>
+      <motion.section 
+        className="section-padding" 
+        style={{ background: "var(--primary)", color: "white", textAlign: "center" }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ margin: "-100px 0px 0px 0px" }}
+        variants={staggerContainer(0.1, 0.2)}
+      >
         <div className="container">
-          <h2 style={{ color: "white" }}>Integrated Enterprise Ecosystem</h2>
-          <p style={{ maxWidth: "800px", margin: "0 auto", opacity: 0.9 }}>
+          <motion.h2 
+            style={{ color: "white" }}
+            variants={fadeIn('up', 'tween', 0.2, 1)}
+          >
+            Integrated Enterprise Ecosystem
+          </motion.h2>
+          <motion.p 
+            style={{ maxWidth: "800px", margin: "0 auto", opacity: 0.9 }}
+            variants={fadeIn('up', 'tween', 0.3, 1)}
+          >
             All Jenora products are designed to work together seamlessly — from
             workflow automation to analytics — giving your organization a unified
             digital infrastructure, not isolated tools.
-          </p>
+          </motion.p>
         </div>
-      </section>
+      </motion.section>
 
       {/* CTA Footer */}
-      <CTA 
-        variant="light"
-        title="Need a Custom Solution?"
-        description="Our team specializes in analyzing unique business requirements and designing systems that fit your specific operational needs."
-        buttons={[
-          { text: "Contact Us", link: "/contact", variant: "primary" },
-          { text: "View Industries", link: "/industries", variant: "outline" }
-        ]}
-      />
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ margin: "-100px 0px 0px 0px" }}
+        variants={slideIn('up', 'tween', 0.2, 1)}
+      >
+        <CTA 
+          variant="light"
+          title="Need a Custom Solution?"
+          description="Our team specializes in analyzing unique business requirements and designing systems that fit your specific operational needs."
+          buttons={[
+            { text: "Contact Us", link: "/contact", variant: "primary" },
+            { text: "View Industries", link: "/industries", variant: "outline" }
+          ]}
+        />
+      </motion.div>
     </main>
   );
 }

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
 export async function POST(request: Request) {
@@ -16,9 +15,17 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Initialize Supabase
-    const cookieStore = await cookies();
-    const supabase = createClient(cookieStore);
+    // 2. Initialize Supabase (Updated to be Async)
+    // We no longer pass cookieStore here because the utility handles it internally
+    const supabase = await createClient();
+
+    if (!supabase) {
+      console.error("❌ SUPABASE INITIALIZATION ERROR: Client is null");
+      return NextResponse.json(
+        { success: false, message: "Server configuration error." },
+        { status: 500 }
+      );
+    }
 
     // 3. Save to Database (Primary Action)
     const { error: dbError } = await supabase
@@ -46,22 +53,22 @@ export async function POST(request: Request) {
     // 4. Send Emails (Secondary Action)
     try {
       const transporter = nodemailer.createTransport({
-  host: "da29.host-ww.net", // 👈 Use the hostname from the error message
-  port: 465,
-  secure: true, 
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-});
+        host: "da29.host-ww.net",
+        port: 465,
+        secure: true, 
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+      });
 
       // Notification to Jenora Tech Inbox
       await transporter.sendMail({
         from: `"Jenora Web Form" <${process.env.EMAIL_USER}>`,
         to: "info@jenoratech.com.ng",
-        replyTo: email, // Click 'Reply' in your inbox to email the client back
+        replyTo: email,
         subject: `New Inquiry from ${organization || name}`,
         html: `
           <div style="font-family: sans-serif; max-width: 600px; color: #333;">
@@ -88,7 +95,6 @@ export async function POST(request: Request) {
 
       console.log("✅ EMAILS SENT SUCCESSFULLY");
     } catch (mailError: any) {
-      // If email fails, we still return success because the lead is in the DB
       console.error("⚠️ EMAIL ERROR:", mailError.message);
     }
 

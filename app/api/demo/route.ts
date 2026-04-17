@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
 export async function POST(request: Request) {
@@ -16,9 +15,20 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Initialize Supabase
-    const cookieStore = await cookies();
-    const supabase = createClient(cookieStore);
+    // 2. Initialize Supabase (middleware-compatible SSR client)
+    const supabase = await createClient();
+
+    if (!supabase) {
+      console.error("❌ SUPABASE INITIALIZATION ERROR: Client is null");
+      return NextResponse.json(
+        { success: false, message: "Server configuration error." },
+        { status: 500 }
+      );
+    }
+
+    // 🔥 FIX: Ensure middleware-based session sync (replaces proxy dependency behavior)
+    // This forces Supabase SSR to read cookies set by middleware
+    await supabase.auth.getUser();
 
     // 3. Save to Database
     const { error: dbError } = await supabase
@@ -31,13 +41,14 @@ export async function POST(request: Request) {
           email,
           phone,
           employees,
-          product, // Now saving the specific product requested
+          product, 
           message,
         },
       ]);
 
     if (dbError) {
       console.error("❌ SUPABASE DB ERROR:", dbError.message);
+      // Continue execution to still send email
     } else {
       console.log("✅ DEMO DATA SAVED TO SUPABASE");
     }

@@ -1,4 +1,8 @@
+'use client';
+
 import CTA from "@/components/CTA";
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer, slideIn } from "@/utils/motion";
 
 export default function SolutionsPage() {
   const solutions = [
@@ -24,29 +28,74 @@ export default function SolutionsPage() {
     }
   ];
 
+  const benefits = [
+    {
+      title: "Scalability",
+      description: "Systems that grow as your organization expands across Africa."
+    },
+    {
+      title: "Security",
+      description: "Enterprise-grade data protection and user access controls."
+    },
+    {
+      title: "Efficiency",
+      description: "Eliminate manual bottlenecks and human error in your workflows."
+    }
+  ];
+
   return (
     <main>
       {/* 1. Page Header */}
-      <section className="section-padding" style={{ background: "var(--primary)", color: "white" }}>
+      <motion.section 
+        className="section-padding" 
+        style={{ background: "var(--primary)", color: "white" }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ margin: "-100px 0px 0px 0px" }} // Adjust margin for smooth triggering
+        variants={staggerContainer(0.1, 0.2)}
+      >
         <div className="container">
-          <div style={{ maxWidth: "800px" }}>
-            <h1 style={{ color: "white", fontSize: "clamp(2.5rem, 6vw, 4rem)" }}>
+          <motion.div 
+            style={{ maxWidth: "800px" }}
+            variants={staggerContainer()}
+          >
+            <motion.h1 
+              style={{ color: "white", fontSize: "clamp(2.5rem, 6vw, 4rem)" }}
+              variants={fadeIn('up', 'tween', 0.2, 1)}
+            >
               Enterprise Technology Solutions
-            </h1>
-            <p style={{ fontSize: "1.2rem", opacity: 0.9, marginTop: "1rem" }}>
+            </motion.h1>
+            <motion.p 
+              style={{ fontSize: "1.2rem", opacity: 0.9, marginTop: "1rem" }}
+              variants={fadeIn('up', 'tween', 0.4, 1)}
+            >
               Jenora Tech provides enterprise technology solutions designed to help 
               organizations operate more efficiently and intelligently.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* 2. Solutions Grid */}
-      <section className="section-padding">
+      <motion.section 
+        className="section-padding"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ margin: "-100px 0px 0px 0px" }} // Adjust margin for smooth triggering
+        variants={staggerContainer()}
+      >
         <div className="container">
-          <div className="grid">
+          <motion.div 
+            className="grid"
+            variants={staggerContainer(0.1, 0.2)}
+          >
             {solutions.map((solution, index) => (
-              <div key={index} className="feature-card">
+              <motion.div 
+                key={index} 
+                className="feature-card"
+                variants={fadeIn('up', 'tween', 0.2 + index * 0.1, 0.8)}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              >
                 <div style={{ 
                   fontSize: "2rem", 
                   marginBottom: "var(--space-sm)",
@@ -58,43 +107,68 @@ export default function SolutionsPage() {
                 <p style={{ color: "var(--text-muted)" }}>
                   {solution.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* 3. Deep-Dive Section (Optional Visual interest) */}
-      <section className="section-padding" style={{ background: "var(--accent)" }}>
+      {/* 3. Deep-Dive Section */}
+      <motion.section 
+        className="section-padding" 
+        style={{ background: "var(--accent)" }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ margin: "-100px 0px 0px 0px" }} // Adjust margin for smooth triggering
+        variants={staggerContainer()}
+      >
         <div className="container" style={{ textAlign: "center" }}>
-          <h2 style={{ marginBottom: "var(--space-md)" }}>Why Choose Our Solutions?</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "var(--space-md)" }}>
-            <div style={{ padding: "var(--space-sm)" }}>
-              <h4 style={{ color: "var(--secondary)" }}>Scalability</h4>
-              <p>Systems that grow as your organization expands across Africa.</p>
-            </div>
-            <div style={{ padding: "var(--space-sm)" }}>
-              <h4 style={{ color: "var(--secondary)" }}>Security</h4>
-              <p>Enterprise-grade data protection and user access controls.</p>
-            </div>
-            <div style={{ padding: "var(--space-sm)" }}>
-              <h4 style={{ color: "var(--secondary)" }}>Efficiency</h4>
-              <p>Eliminate manual bottlenecks and human error in your workflows.</p>
-            </div>
-          </div>
+          <motion.h2 
+            style={{ marginBottom: "var(--space-md)" }}
+            variants={fadeIn('up', 'tween', 0.2, 1)}
+          >
+            Why Choose Our Solutions?
+          </motion.h2>
+          <motion.div 
+            style={{ 
+              display: "grid", 
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", 
+              gap: "var(--space-md)" 
+            }}
+            variants={staggerContainer(0.1, 0.2)}
+          >
+            {benefits.map((benefit, index) => (
+              <motion.div 
+                key={index} 
+                style={{ padding: "var(--space-sm)" }}
+                variants={fadeIn('up', 'tween', 0.3 + index * 0.1, 0.8)}
+                whileHover={{ scale: 1.03 }}
+              >
+                <h4 style={{ color: "var(--secondary)" }}>{benefit.title}</h4>
+                <p>{benefit.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* 4. CTA */}
-      <CTA 
-        variant="brand"
-        title="Start Your Digital Transformation"
-        description="Let's build a custom solution that perfectly fits your operational requirements."
-        buttons={[
-          { text: "Request a Demo", link: "/demo", variant: "primary" },
-          { text: "Contact an Expert", link: "/contact", variant: "outline" }
-        ]}
-      />
+      {/* 4. CTA Section */}
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ margin: "-100px 0px 0px 0px" }} // Adjust margin for smooth triggering
+        variants={slideIn('up', 'tween', 0.2, 1)}
+      >
+        <CTA 
+          variant="brand"
+          title="Start Your Digital Transformation"
+          description="Let's build a custom solution that perfectly fits your operational requirements."
+          buttons={[
+            { text: "Request a Demo", link: "/demo", variant: "primary" },
+            { text: "Contact an Expert", link: "/contact", variant: "outline" }
+          ]}
+        />
+      </motion.div>
     </main>
   );
 }

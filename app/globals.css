@@ -1,4 +1,5 @@
 /* 1. CSS VARIABLES (The Source of Truth) */
+
 :root {
   /* Colors */
   --primary: #0A2A66;
@@ -22,6 +23,10 @@
   --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
   --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
   --max-width: 1200px;
+
+  /* New Animation Variables */
+  --animation-duration: 0.4s;
+  --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 2. RESET & BASE STYLES */
@@ -29,7 +34,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-tap-highlight-color: transparent; 
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -39,6 +44,11 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgba(10, 42, 102, 0.03) 0%,
+    rgba(255, 255, 255, 0) 30%
+  );
 }
 
 h1, h2, h3 {
@@ -65,7 +75,7 @@ h1, h2, h3 {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 9999; 
+  z-index: 9999;
   background: var(--primary);
   padding: var(--space-sm) 0;
   transition: var(--transition);
@@ -89,7 +99,12 @@ h1, h2, h3 {
   font-weight: 700;
   text-decoration: none;
   color: var(--white);
-  z-index: 2101; 
+  z-index: 2101;
+  transition: transform var(--animation-duration) var(--animation-easing);
+}
+
+.logo:hover {
+  transform: scale(1.05);
 }
 
 .logo span {
@@ -109,11 +124,28 @@ h1, h2, h3 {
   font-size: 0.95rem;
   opacity: 0.85;
   transition: var(--transition);
+  position: relative;
 }
 
-.nav-menu a:hover, .nav-menu a.active {
+.nav-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--secondary);
+  transition: width var(--animation-duration) var(--animation-easing);
+}
+
+.nav-menu a:hover, 
+.nav-menu a.active {
   opacity: 1;
   color: var(--secondary);
+}
+
+.nav-menu a:hover::after {
+  width: 100%;
 }
 
 .menu-toggle {
@@ -121,8 +153,8 @@ h1, h2, h3 {
   background: none;
   border: none;
   cursor: pointer;
-  position: relative; 
-  z-index: 10000; 
+  position: relative;
+  z-index: 10000;
   padding: 10px;
   min-width: 44px;
   min-height: 44px;
@@ -150,6 +182,24 @@ h1, h2, h3 {
   border: none;
   font-size: 0.95rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3), rgba(255,255,255,0));
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform var(--animation-duration) var(--animation-easing);
+}
+
+.btn:hover::after {
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .btn-primary {
@@ -184,7 +234,30 @@ h1, h2, h3 {
   text-align: center;
   color: var(--white);
   background: var(--primary);
-  padding-top: 80px; 
+  padding-top: 80px;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(10, 42, 102, 0.9) 0%,
+    rgba(10, 42, 102, 0.6) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+  animation: heroScale 10s ease-in-out infinite alternate;
+}
+
+@keyframes heroScale {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
 }
 
 .hero-overlay {
@@ -199,6 +272,12 @@ h1, h2, h3 {
   position: relative;
   z-index: 2;
   max-width: 800px;
+  animation: fadeInUp var(--animation-duration) var(--animation-easing) both;
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 .hero h1 {
@@ -222,6 +301,22 @@ h1, h2, h3 {
 /* 7. FEATURE GRID */
 .feature-grid {
   background: var(--accent);
+  position: relative;
+}
+
+.feature-grid::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 100% 0%,
+    rgba(10, 42, 102, 0.03) 0%,
+    rgba(255, 255, 255, 0) 30%
+  );
+  pointer-events: none;
 }
 
 .feature-grid .grid {
@@ -238,6 +333,21 @@ h1, h2, h3 {
   border-radius: var(--radius);
   border: 1px solid #eaeaea;
   transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--secondary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--animation-duration) var(--animation-easing);
 }
 
 .feature-card:hover {
@@ -246,10 +356,30 @@ h1, h2, h3 {
   box-shadow: var(--shadow-md);
 }
 
+.feature-card:hover::after {
+  transform: scaleX(1);
+}
+
 /* 8. CTA SECTION */
 .cta-section {
   padding: var(--space-lg) 0;
   text-align: center;
+  position: relative;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(10, 42, 102, 0.05) 0%,
+    rgba(255, 255, 255, 0) 50%
+  );
+  pointer-events: none;
 }
 
 .cta-brand {
@@ -319,8 +449,7 @@ h1, h2, h3 {
   color: #1e293b;
   max-width: 800px;
   margin: 0 auto;
-  /* 🔥 Forces the browser to show line breaks from the database */
-  white-space: pre-wrap; 
+  white-space: pre-wrap;
   word-break: break-word;
 }
 
@@ -357,8 +486,8 @@ h1, h2, h3 {
     background: var(--primary);
     flex-direction: column;
     justify-content: center;
-    align-items: center; 
-    gap: 2.5rem; 
+    align-items: center;
+    gap: 2.5rem;
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: -10px 0 30px rgba(0,0,0,0.5);
     z-index: 2100;
@@ -381,4 +510,142 @@ h1, h2, h3 {
 .staff-portal-link:hover {
   color: #64748b !important;
   text-decoration: underline !important;
+}
+.cta-section {
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 0;
+}
+
+.cta-brand {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.cta-brand::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(10, 42, 102, 0.9) 0%,
+    rgba(10, 42, 102, 0.6) 100%
+  );
+  z-index: -1;
+}
+
+.btn-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3), rgba(255,255,255,0));
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+/* Desktop Navigation */
+.desktop-nav {
+  display: none; /* Hidden by default on mobile */
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Mobile Navigation - Original styles preserved */
+.nav-menu {
+  /* Your existing mobile nav styles */
+}
+
+/* Show desktop nav on larger screens */
+@media (min-width: 768px) {
+  .desktop-nav {
+    display: flex;
+  }
+  .menu-toggle {
+    display: none;
+  }
+  .nav-menu {
+    display: none;
+  }
+}
+/* FIX: Desktop nav link color */
+.desktop-nav a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  transition: var(--transition);
+  position: relative;
+}
+
+/* Hover + active */
+.desktop-nav a:hover,
+.desktop-nav a.active {
+  color: var(--secondary);
+  opacity: 1;
+}
+
+/* Underline animation (same as mobile nav) */
+.desktop-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--secondary);
+  transition: width var(--animation-duration) var(--animation-easing);
+}
+
+.desktop-nav a:hover::after {
+  width: 100%;
+}
+/* Specific Mobile Fixes */
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 3rem 1rem !important; /* Reduces large desktop padding */
+  }
+
+  /* Fix for the Cards */
+  .feature-card {
+    padding: 1rem !important;
+  }
+
+  /* Ensure the table indicator is visible */
+  .mobile-only {
+    display: block !important;
+    background: #f8fafc;
+    font-style: italic;
+  }
+
+  /* Adjust the Login Page card for small height screens */
+  main {
+    min-height: auto !important;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+/* Fix for the Table horizontal scroll */
+.feature-card div {
+  -webkit-overflow-scrolling: touch;
 }
