@@ -68,7 +68,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className={`${inter.variable} ${montserrat.variable} scroll-smooth`}>
       <head>
-        {/* Add this if you want to respect user's motion preferences */}
         <script dangerouslySetInnerHTML={{
           __html: `
             try {
@@ -81,10 +80,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
           `
         }} />
       </head>
+      {/* Added overflowX: "hidden" and maxWidth: "100vw" to prevent horizontal shifting */}
       <body className="site-wrapper" style={{ 
         display: "flex", 
         flexDirection: "column", 
         minHeight: "100vh",
+        overflowX: "hidden",
+        width: "100%",
+        maxWidth: "100vw",
         background: "radial-gradient(circle at 10% 20%, rgba(10, 42, 102, 0.03) 0%, rgba(255, 255, 255, 0) 30%)"
       }}>
         <MotionConfig reducedMotion="user">
@@ -94,11 +97,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
           <NavBar />
 
+          {/* Added overflowX: "hidden" to the main content container */}
           <main 
             id="main-content" 
             className="main-content" 
             style={{ 
               flex: 1,
+              width: "100%",
+              overflowX: "hidden",
               background: "radial-gradient(circle at 90% 80%, rgba(10, 42, 102, 0.03) 0%, rgba(255, 255, 255, 0) 30%)"
             }}
           >
@@ -115,7 +121,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
               overflow: "hidden"
             }}
           >
-            {/* Subtle animated background element */}
             <div 
               aria-hidden="true"
               style={{
@@ -131,7 +136,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
             />
             
             <div className="container">
-              {/* Top Grid */}
               <div style={{ 
                 display: "grid", 
                 gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", 
@@ -262,7 +266,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 </div>
               </div>
 
-              {/* Bottom Bar */}
               <div style={{ 
                 borderTop: "1px solid #f1f5f9", 
                 paddingTop: "2rem", 
