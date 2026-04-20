@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.jenoratech.com.ng
+
+# Sitemaps
+Sitemap: https://www.jenoratech.com.ng/sitemap.xml
