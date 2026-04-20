@@ -1,4 +1,4 @@
-'use client'; 
+'use client'; // Add this to mark the component as client-side
 
 import React from "react";
 import Link from "next/link";
@@ -11,8 +11,8 @@ interface Product {
   name: string;
   description: string;
   features: string[];
-  cta?: string; 
-  ctaLink?: string;
+  cta?: string;      // Optional: only shows for specific products
+  ctaLink?: string;  // Optional: destination for the button
 }
 
 interface ProductCategory {
@@ -205,6 +205,7 @@ export default function ProductsPage() {
                       ))}
                     </ul>
 
+                    {/* TypeScript Guard: Only render button if product.cta exists */}
                     {product.cta && (
                       <motion.div 
                         variants={fadeIn('up', 'tween', 0.4, 1)}
@@ -255,7 +256,7 @@ export default function ProductsPage() {
         </div>
       </motion.section>
 
-      {/* CTA Footer - UPDATED to 'dark' variant to make outline buttons pop */}
+      {/* CTA Footer */}
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -263,14 +264,23 @@ export default function ProductsPage() {
         variants={slideIn('up', 'tween', 0.2, 1)}
       >
         <CTA 
-          variant="dark"
-          title="Need a Custom Solution?"
-          description="Our team specializes in analyzing unique business requirements and designing systems that fit your specific operational needs."
-          buttons={[
-            { text: "Contact Us", link: "/contact", variant: "primary" },
-            { text: "View Industries", link: "/industries", variant: "outline" }
-          ]}
-        />
+  variant="light"
+  title="Need a Custom Solution?"
+  description="Our team specializes in analyzing unique business requirements and designing systems that fit your specific operational needs."
+  buttons={[
+    { text: "Contact Us", link: "/contact", variant: "primary" },
+    { 
+      text: "View Industries", 
+      link: "/industries", 
+      variant: "outline",
+      style: {
+        border: "2px solid var(--primary)",
+        color: "var(--primary)",
+        background: "transparent"
+      }
+    }
+  ]}
+/>
       </motion.div>
     </main>
   );

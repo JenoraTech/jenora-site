@@ -8,6 +8,7 @@ interface CTAButton {
   text: string;
   link: string;
   variant?: "primary" | "outline"; 
+  style?: React.CSSProperties; // ✅ add this
 }
 
 interface CTAProps {
