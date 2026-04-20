@@ -1,32 +1,20 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local"; // Switched to local for build stability
+import { Inter, Montserrat } from "next/font/google"; // Switched back to Google for automated build fetching
 import NavBar from "../components/NavBar";
 import React from "react";
 import Link from "next/link";
 import { MotionConfig } from "framer-motion";
 
-// Local font configuration to prevent "Failed to fetch" errors during build
-const inter = localFont({
-  src: [
-    {
-      path: "../public/fonts/Inter-VariableFont_slnt,wght.woff2",
-      weight: "100 900",
-      style: "normal",
-    },
-  ],
+// Font configuration using next/font/google for reliable cloud builds
+const inter = Inter({ 
+  subsets: ["latin"], 
   variable: "--font-inter",
-  display: "swap",
+  display: "swap" // Ensures text remains visible during font load
 });
 
-const montserrat = localFont({
-  src: [
-    {
-      path: "../public/fonts/Montserrat-VariableFont_wght.woff2",
-      weight: "100 900",
-      style: "normal",
-    },
-  ],
+const montserrat = Montserrat({
+  subsets: ["latin"],
   variable: "--font-montserrat",
   display: "swap",
 });
@@ -35,7 +23,7 @@ export const viewport: Viewport = {
   themeColor: "#0A2A66",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5, // Improved accessibility
+  maximumScale: 5, 
 };
 
 export const metadata: Metadata = {
