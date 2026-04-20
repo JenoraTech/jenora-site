@@ -691,3 +691,22 @@ h1, h2, h3 {
 .btn-outline:hover {
   transform: translateY(-2px);
 }
+/* ✅ FIX: Reduce CTA spacing on mobile */
+@media (max-width: 768px) {
+  .cta-section {
+    padding: 2.5rem 1rem !important;
+  }
+
+  .cta-buttons {
+    margin-bottom: 0 !important;
+  }
+
+  .cta-content {
+    margin-bottom: 0 !important;
+  }
+}
+@media (max-width: 768px) {
+  .cta-section .container {
+    padding-bottom: 0 !important;
+  }
+}
