@@ -1,14 +1,14 @@
 'use client';
 
 import Link from "next/link";
-import motion from "./client-motion"; // Import as default
+import motion from "./client-motion";
 import type { Variants } from "framer-motion";
 
 interface CTAButton {
   text: string;
   link: string;
   variant?: "primary" | "outline"; 
-  style?: React.CSSProperties; // ✅ add this
+  style?: React.CSSProperties;
 }
 
 interface CTAProps {
@@ -20,6 +20,9 @@ interface CTAProps {
 
 export default function CTA({ title, description, buttons, variant = "brand" }: CTAProps) {
   const sectionClass = variant === "dark" || variant === "brand" ? "cta-brand" : "cta-light";
+
+  // ✅ Detect background type
+  const isDark = variant === "dark" || variant === "brand";
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -53,6 +56,22 @@ export default function CTA({ title, description, buttons, variant = "brand" }: 
   const rippleVariants = {
     initial: { scale: 0 },
     hover: { scale: 1 }
+  };
+
+  // ✅ Smart button styling
+  const getButtonStyle = (btn: CTAButton): React.CSSProperties => {
+    if (btn.style) return btn.style; // allow override
+
+    if (btn.variant === "outline") {
+      return {
+        border: `2px solid ${isDark ? "white" : "var(--primary)"}`,
+        color: isDark ? "white" : "var(--primary)",
+        background: "transparent"
+      };
+    }
+
+    // primary button fallback (optional tweak)
+    return {};
   };
 
   return (
@@ -93,6 +112,7 @@ export default function CTA({ title, description, buttons, variant = "brand" }: 
                   className={`btn ${
                     btn.variant === "outline" ? "btn-outline" : "btn-primary"
                   }`}
+                  style={getButtonStyle(btn)} // ✅ AUTO styling here
                 >
                   {btn.text}
                   <motion.span

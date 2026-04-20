@@ -269,16 +269,15 @@ export default function ProductsPage() {
   description="Our team specializes in analyzing unique business requirements and designing systems that fit your specific operational needs."
   buttons={[
     { text: "Contact Us", link: "/contact", variant: "primary" },
-    { 
-      text: "View Industries", 
-      link: "/industries", 
-      variant: "outline",
-      style: {
-        border: "2px solid var(--primary)",
-        color: "var(--primary)",
-        background: "transparent"
-      }
-    }
+    {
+  text: "View Industries", 
+  link: "/industries", 
+  variant: "outline",
+  style: {
+    border: "2px solid var(--primary)",
+    color: "var(--primary)"
+  }
+}
   ]}
 />
       </motion.div>

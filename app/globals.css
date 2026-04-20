@@ -649,3 +649,45 @@ h1, h2, h3 {
 .feature-card div {
   -webkit-overflow-scrolling: touch;
 }
+/* ========================================= */
+/* 🔥 SMART CTA BUTTON FIX (NON-DESTRUCTIVE) */
+/* ========================================= */
+
+/* Default outline (fallback - keep your current look for dark sections) */
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--white);
+  color: var(--white);
+}
+
+/* ✅ FIX: When inside LIGHT sections */
+.cta-light .btn-outline {
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+
+/* Hover for light */
+.cta-light .btn-outline:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+/* ✅ Ensure DARK / BRAND stays correct */
+.cta-brand .btn-outline,
+.cta-dark .btn-outline {
+  border: 2px solid var(--white);
+  color: var(--white);
+}
+
+.cta-brand .btn-outline:hover,
+.cta-dark .btn-outline:hover {
+  background: var(--white);
+  color: var(--primary);
+}
+.btn-outline {
+  transition: all 0.25s ease, transform 0.15s ease;
+}
+
+.btn-outline:hover {
+  transform: translateY(-2px);
+}
