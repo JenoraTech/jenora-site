@@ -1,4 +1,4 @@
-'use client'; // Add this to mark the component as client-side
+'use client'; 
 
 import React from "react";
 import Link from "next/link";
@@ -11,8 +11,8 @@ interface Product {
   name: string;
   description: string;
   features: string[];
-  cta?: string;      // Optional: only shows for specific products
-  ctaLink?: string;  // Optional: destination for the button
+  cta?: string; 
+  ctaLink?: string;
 }
 
 interface ProductCategory {
@@ -205,7 +205,6 @@ export default function ProductsPage() {
                       ))}
                     </ul>
 
-                    {/* TypeScript Guard: Only render button if product.cta exists */}
                     {product.cta && (
                       <motion.div 
                         variants={fadeIn('up', 'tween', 0.4, 1)}
@@ -256,7 +255,7 @@ export default function ProductsPage() {
         </div>
       </motion.section>
 
-      {/* CTA Footer */}
+      {/* CTA Footer - UPDATED to 'dark' variant to make outline buttons pop */}
       <motion.div
         initial="hidden"
         whileInView="show"
@@ -264,7 +263,7 @@ export default function ProductsPage() {
         variants={slideIn('up', 'tween', 0.2, 1)}
       >
         <CTA 
-          variant="light"
+          variant="dark"
           title="Need a Custom Solution?"
           description="Our team specializes in analyzing unique business requirements and designing systems that fit your specific operational needs."
           buttons={[
