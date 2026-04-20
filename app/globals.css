@@ -1,5 +1,4 @@
 /* 1. CSS VARIABLES (The Source of Truth) */
-
 :root {
   /* Colors */
   --primary: #0A2A66;
@@ -24,7 +23,7 @@
   --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
   --max-width: 1200px;
 
-  /* New Animation Variables */
+  /* Animation Variables */
   --animation-duration: 0.4s;
   --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -44,6 +43,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  /* Subtle Background Gradient */
   background: radial-gradient(
     circle at 10% 20%,
     rgba(10, 42, 102, 0.03) 0%,
@@ -69,7 +69,7 @@ h1, h2, h3 {
   padding: var(--space-lg) 0;
 }
 
-/* 4. REFINED NAVBAR */
+/* 4. NAVIGATION (Navbar, Desktop & Mobile) */
 .navbar {
   position: fixed;
   top: 0;
@@ -103,21 +103,35 @@ h1, h2, h3 {
   transition: transform var(--animation-duration) var(--animation-easing);
 }
 
-.logo:hover {
-  transform: scale(1.05);
+.logo:hover { transform: scale(1.05); }
+.logo span { color: var(--secondary); }
+
+/* Toggle Button Fix */
+.menu-toggle {
+  display: none;
+  background: transparent !important; /* Forces transparent background */
+  border: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 10000;
+  padding: 10px;
+  min-width: 44px;
+  min-height: 44px;
+  outline: none;
+  appearance: none;
 }
 
-.logo span {
-  color: var(--secondary);
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: var(--white);
+  margin: 5px 0;
+  transition: var(--transition);
 }
 
-.nav-menu {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
-
-.nav-menu a {
+/* Shared Navigation Links Logic */
+.nav-menu a, .desktop-nav a {
   color: var(--white);
   text-decoration: none;
   font-weight: 500;
@@ -127,7 +141,7 @@ h1, h2, h3 {
   position: relative;
 }
 
-.nav-menu a::after {
+.nav-menu a::after, .desktop-nav a::after {
   content: '';
   position: absolute;
   bottom: -2px;
@@ -138,37 +152,15 @@ h1, h2, h3 {
   transition: width var(--animation-duration) var(--animation-easing);
 }
 
-.nav-menu a:hover, 
-.nav-menu a.active {
+.nav-menu a:hover, .nav-menu a.active,
+.desktop-nav a:hover, .desktop-nav a.active {
   opacity: 1;
   color: var(--secondary);
 }
 
-.nav-menu a:hover::after {
-  width: 100%;
-}
+.nav-menu a:hover::after, .desktop-nav a:hover::after { width: 100%; }
 
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  z-index: 10000;
-  padding: 10px;
-  min-width: 44px;
-  min-height: 44px;
-  touch-action: manipulation;
-}
-
-.hamburger span {
-  display: block;
-  width: 25px;
-  height: 2px;
-  background: var(--white);
-  margin: 5px 0;
-  transition: var(--transition);
-}
+.desktop-nav { display: none; align-items: center; gap: 1.5rem; }
 
 /* 5. COMPONENTS - BUTTONS */
 .btn {
@@ -178,7 +170,7 @@ h1, h2, h3 {
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.25s ease, transform 0.15s ease;
   border: none;
   font-size: 0.95rem;
   text-align: center;
@@ -196,33 +188,17 @@ h1, h2, h3 {
   background: radial-gradient(circle, rgba(255,255,255,0.3), rgba(255,255,255,0));
   transform: translate(-50%, -50%) scale(0);
   transition: transform var(--animation-duration) var(--animation-easing);
+  pointer-events: none;
 }
 
-.btn:hover::after {
-  transform: translate(-50%, -50%) scale(1);
-}
+.btn:hover { transform: translateY(-2px); }
+.btn:hover::after { transform: translate(-50%, -50%) scale(1); }
 
-.btn-primary {
-  background: var(--secondary);
-  color: var(--white);
-}
+.btn-primary { background: var(--secondary); color: var(--white); }
+.btn-primary:hover { background: var(--secondary-hover); box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3); }
 
-.btn-primary:hover {
-  background: var(--secondary-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
-}
-
-.btn-outline {
-  background: transparent;
-  border: 2px solid var(--white);
-  color: var(--white);
-}
-
-.btn-outline:hover {
-  background: var(--white);
-  color: var(--primary);
-}
+.btn-outline { background: transparent; border: 2px solid var(--white); color: var(--white); }
+.btn-outline:hover { background: var(--white); color: var(--primary); }
 
 /* 6. HERO SECTION */
 .hero {
@@ -241,15 +217,8 @@ h1, h2, h3 {
 .hero::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(10, 42, 102, 0.9) 0%,
-    rgba(10, 42, 102, 0.6) 100%
-  );
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(10, 42, 102, 0.9) 0%, rgba(10, 42, 102, 0.6) 100%);
   z-index: 1;
   pointer-events: none;
   animation: heroScale 10s ease-in-out infinite alternate;
@@ -258,14 +227,6 @@ h1, h2, h3 {
 @keyframes heroScale {
   0% { transform: scale(1); }
   100% { transform: scale(1.1); }
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(rgba(10, 42, 102, 0.85), rgba(10, 42, 102, 0.65));
-  z-index: 1;
-  pointer-events: none;
 }
 
 .hero-content {
@@ -280,43 +241,14 @@ h1, h2, h3 {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-.hero h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  color: var(--white);
-  margin-bottom: 1.5rem;
-}
-
-.hero p {
-  font-size: clamp(1.1rem, 2vw, 1.25rem);
-  margin-bottom: 2.5rem;
-  opacity: 0.9;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: var(--space-sm);
-  justify-content: center;
-}
+.hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); color: var(--white); margin-bottom: 1.5rem; }
+.hero p { font-size: clamp(1.1rem, 2vw, 1.25rem); margin-bottom: 2.5rem; opacity: 0.9; }
+.hero-buttons { display: flex; gap: var(--space-sm); justify-content: center; }
 
 /* 7. FEATURE GRID */
 .feature-grid {
   background: var(--accent);
   position: relative;
-}
-
-.feature-grid::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at 100% 0%,
-    rgba(10, 42, 102, 0.03) 0%,
-    rgba(255, 255, 255, 0) 30%
-  );
-  pointer-events: none;
 }
 
 .feature-grid .grid {
@@ -356,38 +288,23 @@ h1, h2, h3 {
   box-shadow: var(--shadow-md);
 }
 
-.feature-card:hover::after {
-  transform: scaleX(1);
-}
+.feature-card:hover::after { transform: scaleX(1); }
 
 /* 8. CTA SECTION */
 .cta-section {
   padding: var(--space-lg) 0;
   text-align: center;
   position: relative;
+  overflow: hidden;
 }
 
-.cta-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(10, 42, 102, 0.05) 0%,
-    rgba(255, 255, 255, 0) 50%
-  );
-  pointer-events: none;
-}
-
-.cta-brand {
-  background: var(--primary);
-  color: var(--white);
-}
-
+.cta-brand { background: var(--primary); color: var(--white); }
 .cta-brand h2 { color: var(--white); }
+
+.cta-light .btn-outline { border: 2px solid var(--primary); color: var(--primary); }
+.cta-light .btn-outline:hover { background: var(--primary); color: var(--white); }
+
+.cta-brand .btn-outline, .cta-dark .btn-outline { border: 2px solid var(--white); color: var(--white); }
 
 .cta-buttons {
   margin-top: var(--space-md);
@@ -397,23 +314,11 @@ h1, h2, h3 {
   flex-wrap: wrap;
 }
 
-/* 9. FORMS */
-.form-group {
-  margin-bottom: var(--space-sm);
-  display: flex;
-  flex-direction: column;
-}
+/* 9. FORMS & INPUTS */
+.form-group { margin-bottom: var(--space-sm); display: flex; flex-direction: column; }
+.form-group label { font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; color: var(--primary); }
 
-.form-group label {
-  font-weight: 600;
-  font-size: 0.9rem;
-  margin-bottom: 6px;
-  color: var(--primary);
-}
-
-.form-group input, 
-.form-group textarea,
-.form-select {
+.form-group input, .form-group textarea, .form-select {
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: var(--radius);
@@ -422,27 +327,13 @@ h1, h2, h3 {
   transition: var(--transition);
 }
 
-.form-group input:focus, 
-.form-group textarea:focus {
+.form-group input:focus, .form-group textarea:focus {
   outline: none;
   border-color: var(--secondary);
   box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.1);
 }
 
-/* 10. SYSTEM PAGES */
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid rgba(10, 42, 102, 0.1);
-  border-left-color: var(--secondary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: var(--space-sm);
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* 11. ARTICLE & PROSE STYLING (THE UPDATED FIX) */
+/* 10. PROSE & CONTENT */
 .prose-content, .prose {
   line-height: 1.8;
   font-size: 1.125rem;
@@ -453,30 +344,16 @@ h1, h2, h3 {
   word-break: break-word;
 }
 
-.prose-content p, .prose p {
-  margin-bottom: 1.75rem; 
-  display: block;
-}
+.prose-content p, .prose p { margin-bottom: 1.75rem; display: block; }
+.prose-content strong, .prose strong { color: var(--primary); font-weight: 800; }
 
-.prose-content strong, .prose strong {
-  color: var(--primary); 
-  font-weight: 800;
-}
-
-.prose-content h2, .prose h2, 
-.prose-content h3, .prose h3 {
-  margin-top: 2.5rem;
-  margin-bottom: 1rem;
-  color: var(--primary);
-}
-
-/* 12. RESPONSIVE DESIGN */
+/* 11. RESPONSIVE DESIGN */
 @media (max-width: 768px) {
-  .menu-toggle { 
-    display: block;
-    z-index: 2200;
-  }
-
+  .section-padding { padding: 3rem 1rem !important; }
+  
+  .menu-toggle { display: block; z-index: 2200; }
+  .desktop-nav { display: none; }
+  
   .nav-menu {
     position: fixed;
     top: 0;
@@ -491,232 +368,40 @@ h1, h2, h3 {
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: -10px 0 30px rgba(0,0,0,0.5);
     z-index: 2100;
+    display: flex;
   }
 
-  .nav-menu.open { 
-    right: 0; 
-  }
+  .nav-menu.open { right: 0; }
 
-  .hero-buttons, .form-row, .form-grid {
-    flex-direction: column;
-    grid-template-columns: 1fr;
-  }
-
+  /* Hamburger Active Animation */
   .hamburger.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .hamburger.is-active span:nth-child(2) { opacity: 0; }
   .hamburger.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .hero-buttons, .cta-buttons { flex-direction: column; align-items: center; gap: 0.75rem; }
+  .btn { width: 100%; max-width: 280px; }
+  .feature-card { padding: 1rem !important; }
+  
+  .cta-section { padding: 2.5rem 1rem !important; }
 }
 
-.staff-portal-link:hover {
-  color: #64748b !important;
-  text-decoration: underline !important;
-}
-.cta-section {
-  position: relative;
-  overflow: hidden;
-  padding: 4rem 0;
-}
-
-.cta-brand {
-  background: var(--primary);
-  color: var(--white);
-}
-
-.cta-brand::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(10, 42, 102, 0.9) 0%,
-    rgba(10, 42, 102, 0.6) 100%
-  );
-  z-index: -1;
-}
-
-.btn-ripple {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300%;
-  height: 300%;
-  background: radial-gradient(circle, rgba(255,255,255,0.3), rgba(255,255,255,0));
-  transform: translate(-50%, -50%) scale(0);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.cta-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-@media (max-width: 768px) {
-  .cta-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-/* Desktop Navigation */
-.desktop-nav {
-  display: none; /* Hidden by default on mobile */
-  align-items: center;
-  gap: 1.5rem;
-}
-
-/* Mobile Navigation - Original styles preserved */
-.nav-menu {
-  /* Your existing mobile nav styles */
-}
-
-/* Show desktop nav on larger screens */
 @media (min-width: 768px) {
-  .desktop-nav {
-    display: flex;
-  }
-  .menu-toggle {
-    display: none;
-  }
-  .nav-menu {
-    display: none;
-  }
-}
-/* FIX: Desktop nav link color */
-.desktop-nav a {
-  color: var(--white);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  opacity: 0.85;
-  transition: var(--transition);
-  position: relative;
+  .desktop-nav { display: flex; }
+  .menu-toggle, .nav-menu { display: none; }
 }
 
-/* Hover + active */
-.desktop-nav a:hover,
-.desktop-nav a.active {
-  color: var(--secondary);
-  opacity: 1;
+/* 12. UTILITIES & FIXES */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(10, 42, 102, 0.1);
+  border-left-color: var(--secondary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto var(--space-sm);
 }
 
-/* Underline animation (same as mobile nav) */
-.desktop-nav a::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--secondary);
-  transition: width var(--animation-duration) var(--animation-easing);
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.desktop-nav a:hover::after {
-  width: 100%;
-}
-/* Specific Mobile Fixes */
-@media (max-width: 768px) {
-  .section-padding {
-    padding: 3rem 1rem !important; /* Reduces large desktop padding */
-  }
-
-  /* Fix for the Cards */
-  .feature-card {
-    padding: 1rem !important;
-  }
-
-  /* Ensure the table indicator is visible */
-  .mobile-only {
-    display: block !important;
-    background: #f8fafc;
-    font-style: italic;
-  }
-
-  /* Adjust the Login Page card for small height screens */
-  main {
-    min-height: auto !important;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-}
-
-/* Fix for the Table horizontal scroll */
-.feature-card div {
-  -webkit-overflow-scrolling: touch;
-}
-/* ========================================= */
-/* 🔥 SMART CTA BUTTON FIX (NON-DESTRUCTIVE) */
-/* ========================================= */
-
-/* Default outline (fallback - keep your current look for dark sections) */
-.btn-outline {
-  background: transparent;
-  border: 2px solid var(--white);
-  color: var(--white);
-}
-
-/* ✅ FIX: When inside LIGHT sections */
-.cta-light .btn-outline {
-  border: 2px solid var(--primary);
-  color: var(--primary);
-}
-
-/* Hover for light */
-.cta-light .btn-outline:hover {
-  background: var(--primary);
-  color: var(--white);
-}
-
-/* ✅ Ensure DARK / BRAND stays correct */
-.cta-brand .btn-outline,
-.cta-dark .btn-outline {
-  border: 2px solid var(--white);
-  color: var(--white);
-}
-
-.cta-brand .btn-outline:hover,
-.cta-dark .btn-outline:hover {
-  background: var(--white);
-  color: var(--primary);
-}
-.btn-outline {
-  transition: all 0.25s ease, transform 0.15s ease;
-}
-
-.btn-outline:hover {
-  transform: translateY(-2px);
-}
-/* ✅ FIX: Reduce CTA spacing on mobile */
-@media (max-width: 768px) {
-  .cta-section {
-    padding: 2.5rem 1rem !important;
-  }
-
-  .cta-buttons {
-    margin-bottom: 0 !important;
-  }
-
-  .cta-content {
-    margin-bottom: 0 !important;
-  }
-}
-@media (max-width: 768px) {
-  .cta-section .container {
-    padding-bottom: 0 !important;
-  }
-}
-@media (max-width: 768px) {
-  .cta-buttons {
-    gap: 0.75rem;
-  }
-
-  .btn {
-    width: 100%;
-    max-width: 280px;
-  }
-}
+.mobile-only { display: none; }
+@media (max-width: 768px) { .mobile-only { display: block !important; } }
