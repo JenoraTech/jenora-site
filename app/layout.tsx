@@ -1,19 +1,32 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { Inter, Montserrat } from "next/font/google";
+import localFont from "next/font/local"; // Switched to local for build stability
 import NavBar from "../components/NavBar";
 import React from "react";
 import Link from "next/link";
 import { MotionConfig } from "framer-motion";
 
-const inter = Inter({ 
-  subsets: ["latin"], 
+// Local font configuration to prevent "Failed to fetch" errors during build
+const inter = localFont({
+  src: [
+    {
+      path: "../public/fonts/Inter-VariableFont_slnt,wght.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
   variable: "--font-inter",
-  display: "swap" 
+  display: "swap",
 });
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
+const montserrat = localFont({
+  src: [
+    {
+      path: "../public/fonts/Montserrat-VariableFont_wght.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
   variable: "--font-montserrat",
   display: "swap",
 });
@@ -22,16 +35,22 @@ export const viewport: Viewport = {
   themeColor: "#0A2A66",
   width: "device-width",
   initialScale: 1,
+  maximumScale: 5, // Improved accessibility
 };
 
 export const metadata: Metadata = {
   title: {
-    default: "Jenora Tech Ltd | Enterprise Software Solutions",
+    default: "Jenora Tech Ltd | Enterprise Software Solutions Nigeria",
     template: "%s | Jenora Tech Ltd",
   },
   description:
-    "Empowering African organizations with world-class Business Systems Optimization and Enterprise Software solutions.",
-  metadataBase: new URL("https://jenoratech.com.ng"),
+    "Jenora Tech Ltd empowers African organizations with world-class Business Systems Optimization and Enterprise Software solutions based in Minna, Nigeria.",
+  metadataBase: new URL("https://www.jenoratech.com.ng"),
+  applicationName: "Jenora Tech",
+  authors: [{ name: "Jenora Tech Team" }],
+  generator: "Next.js",
+  keywords: ["Software Development", "Minna", "Nigeria", "Enterprise Solutions", "Business Optimization", "Secretariat Systems"],
+  referrer: "origin-when-cross-origin",
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
@@ -40,9 +59,9 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Jenora Tech Ltd",
-    description: "Enterprise Software & Business Systems Optimization for Africa",
-    url: "https://jenoratech.com.ng",
+    title: "Jenora Tech Ltd | Innovative Software Solutions",
+    description: "Optimizing Business Systems & Enterprise Software for Africa.",
+    url: "https://www.jenoratech.com.ng",
     siteName: "Jenora Tech Ltd",
     locale: "en_NG",
     type: "website",
@@ -50,6 +69,13 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -80,7 +106,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
           `
         }} />
       </head>
-      {/* Added overflowX: "hidden" and maxWidth: "100vw" to prevent horizontal shifting */}
       <body className="site-wrapper" style={{ 
         display: "flex", 
         flexDirection: "column", 
@@ -97,7 +122,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
           <NavBar />
 
-          {/* Added overflowX: "hidden" to the main content container */}
           <main 
             id="main-content" 
             className="main-content" 
