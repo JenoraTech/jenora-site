@@ -1,9 +1,11 @@
 # *
 User-agent: *
 Allow: /
+Disallow: /admin
 
 # Host
 Host: https://www.jenoratech.com.ng
 
 # Sitemaps
 Sitemap: https://www.jenoratech.com.ng/sitemap.xml
+Sitemap: https://www.jenoratech.com.ng/sitemap-0.xml
